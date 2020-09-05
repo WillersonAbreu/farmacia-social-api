@@ -20,10 +20,13 @@ O projeto Famácia Social é uma proposta de projeto integrador que tem a finali
 $ cd farmacia-social-api
 ```
 
-Copie o conteúdo do arquivo application.properties.example que fica dentro de /src/main/resources
-e crie um novo arquivo chamado application.properties dentro do mesmo diretório, cole o conteúdo copiado do
-primeiro arquivo dentro deste novo arquivo. Troque onde está NOME_DO_DB pelo nome do seu banco de dados,
-troque USUARIO_BD pelo usuário de acesso ao seu banco de dados e troque SENHA_BD pela senha de acesso ao seu banco de dados.
+- Copie o conteúdo do arquivo application.properties.example que fica dentro de /src/main/resources;
+
+- Crie um novo arquivo chamado application.properties dentro do mesmo diretório;
+- Cole o conteúdo copiado do primeiro arquivo dentro deste novo arquivo;
+- Troque onde está NOME_DO_DB pelo nome do seu banco de dados;
+- Troque USUARIO_BD pelo usuário de acesso ao seu banco de dados;
+- Troque SENHA_BD pela senha de acesso ao seu banco de dados;
 
 ```sh
 $ ./mvnw spring-boot:run
