@@ -20,33 +20,33 @@ public class PostImage implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "donation_id")
+	@JoinColumn(name = "donationId")
 	private MedicineDonation donation;
 
 	@Column(nullable = false, length = 60)
-	private String image_name;
+	private String imageName;
 
 	@Column(nullable = false)
-	private Boolean is_active = true;
+	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private Timestamp created_at;
+	private Timestamp createdAt;
 
 	@CreationTimestamp
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -59,35 +59,35 @@ public class PostImage implements Serializable {
 	}
 
 	public String getImage_name() {
-		return image_name;
+		return imageName;
 	}
 
-	public void setImage_name(String image_name) {
-		this.image_name = image_name;
+	public void setImage_name(String imageName) {
+		this.imageName = imageName;
 	}
 
 	public Boolean getIs_active() {
-		return is_active;
+		return isActive;
 	}
 
-	public void setIs_active(Boolean is_active) {
-		this.is_active = is_active;
+	public void setIs_active(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public Timestamp getCreated_at() {
-		return created_at;
+		return createdAt;
 	}
 
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setCreated_at(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public Timestamp getUpdated_at() {
-		return updated_at;
+		return updatedAt;
 	}
 
-	public void setUpdated_at(Timestamp updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdated_at(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 }

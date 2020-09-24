@@ -20,83 +20,79 @@ public class ReservedDonation implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "medicine_donation_id")
-	private MedicineDonation medicine_donation;
+	@JoinColumn(name = "medicineDonationId")
+	private MedicineDonation medicineDonation;
 
 	@ManyToOne
-	@JoinColumn(name = "benefited_user_id")
-	private User benefited_user;
+	@JoinColumn(name = "benefitedUserId")
+	private User benefitedUser;
 
 	@Column(nullable = false)
-	private Boolean is_active = true;
+	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private Timestamp created_at;
-	
+	private Timestamp createdAt;
+
 	@CreationTimestamp
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
 
-	public User getBenefited_user() {
-		return benefited_user;
-	}
-
-	public void setBenefited_user(User benefited_user) {
-		this.benefited_user = benefited_user;
-	}
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public MedicineDonation getMedicine_donation() {
-		return medicine_donation;
+	public MedicineDonation getMedicineDonation() {
+		return medicineDonation;
 	}
 
-	public void setMedicine_donation(MedicineDonation medicine_donation) {
-		this.medicine_donation = medicine_donation;
+	public void setMedicineDonation(MedicineDonation medicineDonation) {
+		this.medicineDonation = medicineDonation;
 	}
 
-//	public User getMedicine_donation_user() {
-//		return medicine_donation_user;
-//	}
-//
-//	public void setMedicine_donation_user(User medicine_donation_user) {
-//		this.medicine_donation_user = medicine_donation_user;
-//	}
-
-	public Boolean getIs_active() {
-		return is_active;
+	public User getBenefitedUser() {
+		return benefitedUser;
 	}
 
-	public void setIs_active(Boolean is_active) {
-		this.is_active = is_active;
+	public void setBenefitedUser(User benefitedUser) {
+		this.benefitedUser = benefitedUser;
 	}
 
-	public Timestamp getCreated_at() {
-		return created_at;
+	public Boolean getIsActive() {
+		return isActive;
 	}
 
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
-	public Timestamp getUpdated_at() {
-		return updated_at;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setUpdated_at(Timestamp updated_at) {
-		this.updated_at = updated_at;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public static Long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

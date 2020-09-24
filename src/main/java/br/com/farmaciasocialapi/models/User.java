@@ -21,11 +21,11 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(nullable = false, length = 150)
 	private String name;
@@ -49,41 +49,41 @@ public class User implements Serializable {
 	private String address;
 
 	@Column(nullable = false)
-	private Boolean is_active = true;
+	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private Timestamp created_at;
+	private Timestamp createdAt;
 
 	@CreationTimestamp
-	private Timestamp updated_at;
-
-	public List<ReservedDonation> getReserved_donations() {
-		return reserved_donations;
-	}
-
-	public void setReserved_donations(List<ReservedDonation> reserved_donations) {
-		this.reserved_donations = reserved_donations;
-	}
+	private Timestamp updatedAt;
 
 	@OneToMany(mappedBy = "user")
 	private List<MedicineDonation> donations;
-	
-	@OneToMany(mappedBy = "benefited_user")
-	private List<ReservedDonation> reserved_donations;
-	
-	public long getId() {
+
+	@OneToMany(mappedBy = "benefitedUser")
+	private List<ReservedDonation> reservedDonations;
+
+//	public List<ReservedDonation> getReservedDonations() {
+//		return reservedDonations;
+//	}
+
+	public void setReservedDonations(List<ReservedDonation> reservedDonations) {
+		this.reservedDonations = reservedDonations;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public List<MedicineDonation> getDonations() {
-		return donations;
-	}
+//	public List<MedicineDonation> getDonations() {
+//		return donations;
+//	}
 
 	public void setDonations(List<MedicineDonation> donations) {
 		this.donations = donations;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -143,28 +143,28 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public Boolean getIs_active() {
-		return is_active;
+	public Boolean getIsActive() {
+		return isActive;
 	}
 
-	public void setIs_active(Boolean is_active) {
-		this.is_active = is_active;
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
-	public Timestamp getCreated_at() {
-		return created_at;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdated_at() {
-		return updated_at;
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdated_at(Timestamp updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 }

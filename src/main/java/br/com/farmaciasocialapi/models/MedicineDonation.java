@@ -22,14 +22,14 @@ public class MedicineDonation implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "userId")
 	private User user;
 
 	@Column(nullable = false, length = 100)
@@ -54,39 +54,31 @@ public class MedicineDonation implements Serializable {
 	private String composition;
 
 	@Column(nullable = false, length = 20)
-	private String batch_code;
+	private String batchCode;
 
 	@Column(nullable = false)
-	private Timestamp shelf_life;
+	private Timestamp shelfLife;
 
 	@Column(nullable = false)
-	private String picture_file;
+	private String pictureFile;
 
 	@Column(nullable = false)
-	private Boolean is_active = true;
+	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private Timestamp created_at;
+	private Timestamp createdAt;
 
 	@CreationTimestamp
-	private Timestamp updated_at;
-		
+	private Timestamp updatedAt;
+
 	@OneToMany(mappedBy = "donation")
 	private List<PostImage> images;
-	
-	public List<PostImage> getImages() {
-		return images;
-	}
 
-	public void setImages(List<PostImage> images) {
-		this.images = images;
-	}
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -154,52 +146,64 @@ public class MedicineDonation implements Serializable {
 		this.composition = composition;
 	}
 
-	public String getBatch_code() {
-		return batch_code;
+	public String getBatchCode() {
+		return batchCode;
 	}
 
-	public void setBatch_code(String batch_code) {
-		this.batch_code = batch_code;
+	public void setBatchCode(String batchCode) {
+		this.batchCode = batchCode;
 	}
 
-	public Timestamp getShelf_life() {
-		return shelf_life;
+	public Timestamp getShelfLife() {
+		return shelfLife;
 	}
 
-	public void setShelf_life(Timestamp shelf_life) {
-		this.shelf_life = shelf_life;
+	public void setShelfLife(Timestamp shelfLife) {
+		this.shelfLife = shelfLife;
 	}
 
-	public String getPicture_file() {
-		return picture_file;
+	public String getPictureFile() {
+		return pictureFile;
 	}
 
-	public void setPicture_file(String picture_file) {
-		this.picture_file = picture_file;
+	public void setPictureFile(String pictureFile) {
+		this.pictureFile = pictureFile;
 	}
 
-	public Boolean getIs_active() {
-		return is_active;
+	public Boolean getIsActive() {
+		return isActive;
 	}
 
-	public void setIs_active(Boolean is_active) {
-		this.is_active = is_active;
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
-	public Timestamp getCreated_at() {
-		return created_at;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdated_at() {
-		return updated_at;
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdated_at(Timestamp updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public List<PostImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<PostImage> images) {
+		this.images = images;
+	}
+
+	public static Long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }
