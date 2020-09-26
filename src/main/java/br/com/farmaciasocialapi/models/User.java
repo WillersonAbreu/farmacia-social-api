@@ -63,10 +63,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "benefitedUser")
 	private List<ReservedDonation> reservedDonations;
 
-//	public List<ReservedDonation> getReservedDonations() {
-//		return reservedDonations;
-//	}
-
 	public void setReservedDonations(List<ReservedDonation> reservedDonations) {
 		this.reservedDonations = reservedDonations;
 	}
@@ -74,10 +70,6 @@ public class User implements Serializable {
 	public Long getId() {
 		return id;
 	}
-
-//	public List<MedicineDonation> getDonations() {
-//		return donations;
-//	}
 
 	public void setDonations(List<MedicineDonation> donations) {
 		this.donations = donations;

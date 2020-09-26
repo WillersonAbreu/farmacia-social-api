@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,8 +89,8 @@ public class UserController {
 			throw new Exception("É necessário inserir um endereço");
 		}
 
-		User hasEmail = this.userRepository.findByEmail(user.getEmail());
-		User hasCpf = this.userRepository.findByCpf(user.getCpf());
+		Optional<User> hasEmail = this.userRepository.findByEmail(user.getEmail());
+		Optional<User> hasCpf = this.userRepository.findByCpf(user.getCpf());
 
 		/**
 		 * Validate if the email is already used
@@ -123,12 +124,12 @@ public class UserController {
 	public ResponseEntity<Response> update(@PathVariable(value = "id") Long id, @RequestBody User user)
 			throws Exception {
 		/**
-		 * Validate if the user is already exists
+		 * Validate if user inserted a valid ID
 		 */
 		if (id == null) {
 			throw new Exception("É necessário inserir um ID!");
 		}
-			
+
 		/**
 		 * Validate another inputs
 		 */
@@ -152,15 +153,14 @@ public class UserController {
 			throw new Exception("É necessário inserir um endereço");
 		}
 
-		
 		Optional<User> hasUser = this.userRepository.findById(id);
-		User hasEmail = this.userRepository.findByEmail(user.getEmail());
-		User hasCpf = this.userRepository.findByCpf(user.getCpf());
+		Optional<User> hasEmail = this.userRepository.findByEmail(user.getEmail());
+		Optional<User> hasCpf = this.userRepository.findByCpf(user.getCpf());
 
 		/**
 		 * Validate if the user is already exists
 		 */
-		if (hasUser == null) {
+		if (hasUser.isEmpty()) {
 			throw new Exception("Usuário não encontrado!");
 		}
 
@@ -168,7 +168,7 @@ public class UserController {
 		 * Validate if the inserted email is different from the current email and if
 		 * another user is using it or not
 		 */
-		if (hasEmail != null) {
+		if (!hasEmail.isEmpty()) {
 			if (hasUser.get().getEmail().equals(user.getEmail()) == false) {
 				throw new Exception("Este email já está em uso");
 			}
@@ -180,7 +180,7 @@ public class UserController {
 		 * Validate if the inserted CPF is different from the current CPF and if another
 		 * user is using it or not
 		 */
-		if (hasCpf != null) {
+		if (!hasCpf.isEmpty()) {
 			if (hasUser.get().getCpf().equals(user.getCpf()) == false) {
 				throw new Exception("Este CPF já está em uso");
 			}
@@ -204,5 +204,33 @@ public class UserController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Usuário criado com sucesso", 200, hasUser));
 
+	}
+	
+	/**
+	 * 
+	 * @return {Response} Boolean
+	 * @throws Exception 
+	 */
+	@DeleteMapping("/user/{id}")
+	@Transactional
+	public ResponseEntity<Response> delete(@PathVariable(value = "id") Long id) throws Exception{
+		
+		/**
+		 * Validate if user inserted a valid ID
+		 */
+		if (id == null) {
+			throw new Exception("É necessário inserir um ID!");
+		}
+		
+		Optional<User> hasUser = this.userRepository.findById(id);
+		
+		if(hasUser.isEmpty()) {
+			throw new Exception("Usuário não encontrado!");
+		}
+		
+		this.userRepository.deleteById(hasUser.get().getId());
+		
+		return  ResponseEntity
+					.ok(new Response("Usuário deletado com sucesso", 200, true));
 	}
 }
