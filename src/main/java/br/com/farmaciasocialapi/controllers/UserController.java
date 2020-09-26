@@ -95,20 +95,20 @@ public class UserController {
 		/**
 		 * Validate if the email is already used
 		 */
-		if (hasEmail != null) {
+		if (!hasEmail.isEmpty()) {
 			throw new Exception("Já existe um usuário com esse Email!");
 		}
 
 		/**
 		 * Validate if the CPF is already used
 		 */
-		if (hasCpf != null) {
+		if (!hasCpf.isEmpty()) {
 			throw new Exception("Já existe um usuário com esse CPF!");
 		}
 
 		String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(encodedPassword);
-		userRepository.save(user);
+		this.userRepository.save(user);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Usuário criado com sucesso", 201, user));
 
@@ -205,32 +205,31 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Usuário criado com sucesso", 200, hasUser));
 
 	}
-	
+
 	/**
 	 * 
 	 * @return {Response} Boolean
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@DeleteMapping("/user/{id}")
 	@Transactional
-	public ResponseEntity<Response> delete(@PathVariable(value = "id") Long id) throws Exception{
-		
+	public ResponseEntity<Response> delete(@PathVariable(value = "id") Long id) throws Exception {
+
 		/**
 		 * Validate if user inserted a valid ID
 		 */
 		if (id == null) {
 			throw new Exception("É necessário inserir um ID!");
 		}
-		
+
 		Optional<User> hasUser = this.userRepository.findById(id);
-		
-		if(hasUser.isEmpty()) {
+
+		if (hasUser.isEmpty()) {
 			throw new Exception("Usuário não encontrado!");
 		}
-		
+
 		this.userRepository.deleteById(hasUser.get().getId());
-		
-		return  ResponseEntity
-					.ok(new Response("Usuário deletado com sucesso", 200, true));
+
+		return ResponseEntity.ok(new Response("Usuário deletado com sucesso", 200, true));
 	}
 }

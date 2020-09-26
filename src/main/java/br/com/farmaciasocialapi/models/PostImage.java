@@ -33,61 +33,10 @@ public class PostImage implements Serializable {
 	@Column(nullable = false, length = 60)
 	private String imageName;
 
-	@Column(nullable = false)
-	private Boolean isActive = true;
-
 	@CreationTimestamp
 	private Timestamp createdAt;
 
 	@CreationTimestamp
 	private Timestamp updatedAt;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public MedicineDonation getDonation() {
-		return donation;
-	}
-
-	public void setDonation(MedicineDonation donation) {
-		this.donation = donation;
-	}
-
-	public String getImage_name() {
-		return imageName;
-	}
-
-	public void setImage_name(String imageName) {
-		this.imageName = imageName;
-	}
-
-	public Boolean getIs_active() {
-		return isActive;
-	}
-
-	public void setIs_active(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public Timestamp getCreated_at() {
-		return createdAt;
-	}
-
-	public void setCreated_at(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdated_at() {
-		return updatedAt;
-	}
-
-	public void setUpdated_at(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
 
 }

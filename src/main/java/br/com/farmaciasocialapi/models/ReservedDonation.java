@@ -14,8 +14,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "reserved_donations")
+@Getter
+@Setter
 public class ReservedDonation implements Serializable {
 	/**
 	 * 
@@ -34,65 +39,9 @@ public class ReservedDonation implements Serializable {
 	@JoinColumn(name = "benefitedUserId")
 	private User benefitedUser;
 
-	@Column(nullable = false)
-	private Boolean isActive = true;
-
 	@CreationTimestamp
 	private Timestamp createdAt;
 
 	@CreationTimestamp
 	private Timestamp updatedAt;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public MedicineDonation getMedicineDonation() {
-		return medicineDonation;
-	}
-
-	public void setMedicineDonation(MedicineDonation medicineDonation) {
-		this.medicineDonation = medicineDonation;
-	}
-
-	public User getBenefitedUser() {
-		return benefitedUser;
-	}
-
-	public void setBenefitedUser(User benefitedUser) {
-		this.benefitedUser = benefitedUser;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public static Long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 }

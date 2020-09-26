@@ -13,10 +13,11 @@ public class TokenService {
 	private static final String jwtSecret = "44298851e896fa6fc50462c44893c45a";
 	private static final Date currentTime = new Date(System.currentTimeMillis());
 	private static final Date expirationTime = new Date(
-			currentTime.getTime() + 604800000); /*604800000 = 7 dias em milissegundos*/
+			currentTime.getTime() + 604800000); /* 604800000 = 7 dias em milissegundos */
 
 	public String generateToken(User user) {
-		return Jwts.builder().setIssuedAt(currentTime).setSubject(user.getId().toString()).setExpiration(expirationTime)
+		return Jwts.builder().setIssuedAt(currentTime).claim("email", user.getEmail()).claim("name", user.getName())
+				.claim("cep", user.getCep()).setSubject(user.getId().toString()).setExpiration(expirationTime)
 				.signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
 	}
 
