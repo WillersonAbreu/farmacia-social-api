@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -66,9 +68,11 @@ public class MedicineDonation implements Serializable {
 	private Timestamp createdAt;
 
 	@CreationTimestamp
+	@JsonIgnore
 	private Timestamp updatedAt;
 
 	@OneToMany(mappedBy = "donation")
+	@JsonIgnore
 	private List<PostImage> images;
 
 }

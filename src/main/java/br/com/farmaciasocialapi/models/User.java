@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Getter;
@@ -60,9 +62,11 @@ public class User implements Serializable {
 	private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
 
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<MedicineDonation> donations;
 
 	@OneToMany(mappedBy = "benefitedUser")
+	@JsonIgnore
 	private List<ReservedDonation> reservedDonations;
 
 	private List<ReservedDonation> getReservedDonations() {
