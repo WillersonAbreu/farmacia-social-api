@@ -95,14 +95,14 @@ public class UserController {
 		/**
 		 * Validate if the email is already used
 		 */
-		if (!hasEmail.isEmpty()) {
+		if (hasEmail.isPresent()) {
 			throw new Exception("Já existe um usuário com esse Email!");
 		}
 
 		/**
 		 * Validate if the CPF is already used
 		 */
-		if (!hasCpf.isEmpty()) {
+		if (hasCpf.isPresent()) {
 			throw new Exception("Já existe um usuário com esse CPF!");
 		}
 
@@ -160,7 +160,7 @@ public class UserController {
 		/**
 		 * Validate if the user is already exists
 		 */
-		if (hasUser.isEmpty()) {
+		if (!hasUser.isPresent()) {
 			throw new Exception("Usuário não encontrado!");
 		}
 
@@ -168,7 +168,7 @@ public class UserController {
 		 * Validate if the inserted email is different from the current email and if
 		 * another user is using it or not
 		 */
-		if (!hasEmail.isEmpty()) {
+		if (!hasEmail.isPresent()) {
 			if (hasUser.get().getEmail().equals(user.getEmail()) == false) {
 				throw new Exception("Este email já está em uso");
 			}
@@ -180,7 +180,7 @@ public class UserController {
 		 * Validate if the inserted CPF is different from the current CPF and if another
 		 * user is using it or not
 		 */
-		if (!hasCpf.isEmpty()) {
+		if (!hasCpf.isPresent()) {
 			if (hasUser.get().getCpf().equals(user.getCpf()) == false) {
 				throw new Exception("Este CPF já está em uso");
 			}
@@ -224,7 +224,7 @@ public class UserController {
 
 		Optional<User> hasUser = this.userRepository.findById(id);
 
-		if (hasUser.isEmpty()) {
+		if (!hasUser.isPresent()) {
 			throw new Exception("Usuário não encontrado!");
 		}
 
