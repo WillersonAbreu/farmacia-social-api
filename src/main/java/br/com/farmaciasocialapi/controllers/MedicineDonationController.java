@@ -1,7 +1,6 @@
 package br.com.farmaciasocialapi.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
