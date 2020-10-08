@@ -72,10 +72,13 @@ public class MedicineDonationModel implements Serializable {
 	@JsonIgnore
 	private Timestamp updatedAt;
 
+	
+	//mecessario para poder fazer a busca posterior
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private UserModel user;
 
+	//necessario para poder cadastrar anuncio na base
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
