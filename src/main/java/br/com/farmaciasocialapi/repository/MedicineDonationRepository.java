@@ -1,15 +1,14 @@
 package br.com.farmaciasocialapi.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.farmaciasocialapi.models.MedicineDonation;
-import br.com.farmaciasocialapi.models.User;
+import br.com.farmaciasocialapi.models.MedicineDonationModel;
+import br.com.farmaciasocialapi.models.UserModel;
 
-public interface MedicineDonationRepository extends JpaRepository<MedicineDonation, Long>{
+public interface MedicineDonationRepository extends JpaRepository<MedicineDonationModel, Long> {
 
-	List<MedicineDonation> findAllByUser(User user);
-	
+	List<MedicineDonationModel> findAllByUser(UserModel user);
+
 }

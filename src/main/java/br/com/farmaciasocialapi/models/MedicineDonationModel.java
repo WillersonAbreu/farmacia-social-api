@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +25,7 @@ import lombok.Setter;
 @Table(name = "medicine_donations")
 @Getter
 @Setter
-public class MedicineDonation implements Serializable {
+public class MedicineDonationModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -38,44 +37,44 @@ public class MedicineDonation implements Serializable {
 
 	@Column(nullable = false)
 	private Integer amount;
-	
+
 	@Column(nullable = false, length = 20)
 	private String batchCode;
-	
+
 	@CreationTimestamp
 	private Timestamp createdAt;
-	
+
 	@Column(nullable = false, length = 140)
 	private String description;
-	
+
 	@Column(nullable = false, length = 15)
 	private String dosage;
-	
+
 	@Column(nullable = false, length = 8)
 	private String packing;
-	
+
 	@Column(nullable = false)
 	private String pictureFile;
-	
+
 	@Column(nullable = false)
 	private String pictureFileBack;
-	
+
 	@Column(nullable = false)
 	private Timestamp shelfLife;
-	
+
 	@Column(nullable = false, length = 10)
 	private String stripe;
-	
+
 	@Column(nullable = false, length = 100)
 	private String title;
-	
+
 	@CreationTimestamp
 	@JsonIgnore
 	private Timestamp updatedAt;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id", referencedColumnName = "id", nullable=false)
-	private User user;
+	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+	private UserModel user;
 
 	@Column(nullable = false)
 	private Timestamp manufacturyDate;
@@ -93,7 +92,4 @@ public class MedicineDonation implements Serializable {
 				+ ", manufacturyDate=" + manufacturyDate + ", images=" + images + "]";
 	}
 
-	
-	
 }
-

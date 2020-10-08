@@ -8,60 +8,58 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.farmaciasocialapi.models.MedicineDonation;
-import br.com.farmaciasocialapi.models.User;
+import br.com.farmaciasocialapi.models.MedicineDonationModel;
+import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
 
 @Service
 public class MedicineDonationService {
-	
-	//esse cara fica com a regra de negocio toda a logica, o controller so entrega
-	
+
+	// esse cara fica com a regra de negocio toda a logica, o controller so entrega
+
 	@Autowired
 	private MedicineDonationRepository medicineDonationRepository;
-	
-	//Buscar todos as doações
-	public List<MedicineDonation> getAll(){
-		List<MedicineDonation> donations = medicineDonationRepository.findAll();
+
+	// Buscar todos as doações
+	public List<MedicineDonationModel> getAll() {
+		List<MedicineDonationModel> donations = medicineDonationRepository.findAll();
 		return donations;
 	}
-	
-	//Cadastrar novo anuncio
-	public MedicineDonation save(MedicineDonation medicineDonation) {
+
+	// Cadastrar novo anuncio
+	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
 		return medicineDonationRepository.save(medicineDonation);
 	}
-	
+
 	// procurar um anuncio pelo id do anuncio
-	public MedicineDonation getOne(Long id) {
-		Optional<MedicineDonation> entity = medicineDonationRepository.findById(id);
-		
-		if(!entity.isPresent()) {
-			throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Doação não encontrada!");
+	public MedicineDonationModel getOne(Long id) {
+		Optional<MedicineDonationModel> entity = medicineDonationRepository.findById(id);
+
+		if (!entity.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doação não encontrada!");
 		}
-		MedicineDonation donation = entity.get();
+		MedicineDonationModel donation = entity.get();
 		return donation;
-		
+
 	}
-	
+
 	// trazer todos os anuncios de um usuário
-	public List<MedicineDonation> getAll(User user) {
+	public List<MedicineDonationModel> getAll(UserModel user) {
 		return medicineDonationRepository.findAllByUser(user);
 	}
-	
-	//modificar um anuncio
-	public MedicineDonation update(Long id, MedicineDonation medicineDonation) {
+
+	// modificar um anuncio
+	public MedicineDonationModel update(Long id, MedicineDonationModel medicineDonation) {
 		this.getOne(id);
 		medicineDonation.setId(id);
-		MedicineDonation donationUpdated = this.save(medicineDonation);
+		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 		return donationUpdated;
 	}
-	
-	//Deletar um anúncio
+
+	// Deletar um anúncio
 	public void delete(Long id) {
-		MedicineDonation donation = this.getOne(id);
+		MedicineDonationModel donation = this.getOne(id);
 		medicineDonationRepository.delete(donation);
 	}
-	
-	
 
 }

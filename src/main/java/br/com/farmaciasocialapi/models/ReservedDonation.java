@@ -33,11 +33,11 @@ public class ReservedDonation implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "medicineDonationId")
-	private MedicineDonation medicineDonation;
+	private MedicineDonationModel medicineDonation;
 
 	@ManyToOne
 	@JoinColumn(name = "benefitedUserId")
-	private User benefitedUser;
+	private UserModel benefitedUser;
 
 	@CreationTimestamp
 	private Timestamp createdAt;

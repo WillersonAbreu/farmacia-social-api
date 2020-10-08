@@ -28,7 +28,7 @@ public class PostImage implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "donationId")
-	private MedicineDonation donation;
+	private MedicineDonationModel donation;
 
 	@Column(nullable = false, length = 60)
 	private String imageName;

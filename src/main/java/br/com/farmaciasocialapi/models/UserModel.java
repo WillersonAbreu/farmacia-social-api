@@ -4,19 +4,15 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -27,7 +23,7 @@ import lombok.Setter;
 @Table(name = "users")
 @Getter
 @Setter
-public class User implements Serializable {
+public class UserModel implements Serializable {
 
 	/**
 	 * 
@@ -65,10 +61,9 @@ public class User implements Serializable {
 	@CreationTimestamp
 	private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
 
-	
 	@OneToMany(mappedBy = "user")
-	//@JsonIgnoreProperties("user")
-	private List<MedicineDonation> donations;
+	// @JsonIgnoreProperties("user")
+	private List<MedicineDonationModel> donations;
 
 	@OneToMany(mappedBy = "benefitedUser")
 	@JsonIgnore
@@ -82,11 +77,11 @@ public class User implements Serializable {
 		this.reservedDonations = reservedDonations;
 	}
 
-	private List<MedicineDonation> getDonations() {
+	private List<MedicineDonationModel> getDonations() {
 		return this.donations;
 	}
 
-	private void setDonations(List<MedicineDonation> donations) {
+	private void setDonations(List<MedicineDonationModel> donations) {
 		this.donations = donations;
 	}
 }
