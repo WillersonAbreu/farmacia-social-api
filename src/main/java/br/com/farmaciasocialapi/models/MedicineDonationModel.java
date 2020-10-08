@@ -84,7 +84,7 @@ public class MedicineDonationModel implements Serializable {
 
 	@OneToMany(mappedBy = "donation")
 	@JsonIgnore
-	private List<PostImage> images;
+	private List<PostImageModel> images;
 
 	@Override
 	public String toString() {

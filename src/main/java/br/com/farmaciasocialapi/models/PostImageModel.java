@@ -14,14 +14,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Table(name = "reserved_donations")
-@Getter
-@Setter
-public class ReservedDonation implements Serializable {
+@Table(name = "post_images")
+public class PostImageModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -32,16 +27,16 @@ public class ReservedDonation implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "medicineDonationId")
-	private MedicineDonationModel medicineDonation;
+	@JoinColumn(name = "donationId")
+	private MedicineDonationModel donation;
 
-	@ManyToOne
-	@JoinColumn(name = "benefitedUserId")
-	private UserModel benefitedUser;
+	@Column(nullable = false, length = 60)
+	private String imageName;
 
 	@CreationTimestamp
 	private Timestamp createdAt;
 
 	@CreationTimestamp
 	private Timestamp updatedAt;
+
 }

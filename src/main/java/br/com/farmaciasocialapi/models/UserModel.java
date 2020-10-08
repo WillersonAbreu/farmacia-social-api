@@ -67,13 +67,13 @@ public class UserModel implements Serializable {
 
 	@OneToMany(mappedBy = "benefitedUser")
 	@JsonIgnore
-	private List<ReservedDonation> reservedDonations;
+	private List<ReservedDonationModel> reservedDonations;
 
-	private List<ReservedDonation> getReservedDonations() {
+	private List<ReservedDonationModel> getReservedDonations() {
 		return this.reservedDonations;
 	}
 
-	private void setReservedDonations(List<ReservedDonation> reservedDonations) {
+	private void setReservedDonations(List<ReservedDonationModel> reservedDonations) {
 		this.reservedDonations = reservedDonations;
 	}
 

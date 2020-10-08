@@ -8,15 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "post_images")
-public class PostImage implements Serializable {
+@Table(name = "pharmacies")
+public class PharmacyModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -26,12 +24,17 @@ public class PostImage implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "donationId")
-	private MedicineDonationModel donation;
+	@Column(nullable = false)
+	private String fantasyName;
 
-	@Column(nullable = false, length = 60)
-	private String imageName;
+	@Column(nullable = false)
+	private String cnpj;
+
+	@Column(nullable = false)
+	private String pharmaceutical;
+
+	@Column(nullable = false)
+	private String password;
 
 	@CreationTimestamp
 	private Timestamp createdAt;
