@@ -8,13 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-@Table(name = "pharmacies")
-public class Pharmacy implements Serializable {
+@Table(name = "reserved_donations")
+@Getter
+@Setter
+public class ReservedDonationModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -24,22 +31,17 @@ public class Pharmacy implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
-	private String fantasyName;
+	@ManyToOne
+	@JoinColumn(name = "medicineDonationId")
+	private MedicineDonationModel medicineDonation;
 
-	@Column(nullable = false)
-	private String cnpj;
-
-	@Column(nullable = false)
-	private String pharmaceutical;
-
-	@Column(nullable = false)
-	private String password;
+	@ManyToOne
+	@JoinColumn(name = "benefitedUserId")
+	private UserModel benefitedUser;
 
 	@CreationTimestamp
 	private Timestamp createdAt;
 
 	@CreationTimestamp
 	private Timestamp updatedAt;
-
 }
