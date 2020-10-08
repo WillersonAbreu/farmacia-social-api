@@ -11,4 +11,6 @@ public interface MedicineDonationRepository extends JpaRepository<MedicineDonati
 
 	List<MedicineDonationModel> findAllByUser(UserModel user);
 
+	List<MedicineDonationModel> findAllByUserId(Long UserId);
+
 }

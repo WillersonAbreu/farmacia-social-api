@@ -42,9 +42,9 @@ public class MedicineDonationController {
 	}
 
 	// Trazer todos os anuncios de tal usuario
-	@GetMapping("/meusAnuncios")
-	public ResponseEntity<List<MedicineDonationModel>> getAllDonations(@RequestBody UserModel user) {
-		List<MedicineDonationModel> donation = medicineDonationService.getAll(user);
+	@GetMapping("/{userId}/meusAnuncios")
+	public ResponseEntity<List<MedicineDonationModel>> getAllDonations(@PathVariable(value = "userId") Long userId) {
+		List<MedicineDonationModel> donation = medicineDonationService.getAll(userId);
 		return ResponseEntity.ok(donation);
 	}
 

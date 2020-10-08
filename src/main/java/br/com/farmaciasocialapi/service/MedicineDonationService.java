@@ -44,8 +44,8 @@ public class MedicineDonationService {
 	}
 
 	// trazer todos os anuncios de um usuário
-	public List<MedicineDonationModel> getAll(UserModel user) {
-		return medicineDonationRepository.findAllByUser(user);
+	public List<MedicineDonationModel> getAll(Long userId) {
+		return medicineDonationRepository.findAllByUserId(userId);
 	}
 
 	// modificar um anuncio
