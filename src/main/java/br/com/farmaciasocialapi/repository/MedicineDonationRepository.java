@@ -9,8 +9,6 @@ import br.com.farmaciasocialapi.models.UserModel;
 
 public interface MedicineDonationRepository extends JpaRepository<MedicineDonationModel, Long> {
 
-	List<MedicineDonationModel> findAllByUser(UserModel user);
-
 	List<MedicineDonationModel> findAllByUserId(Long UserId);
 
 }
