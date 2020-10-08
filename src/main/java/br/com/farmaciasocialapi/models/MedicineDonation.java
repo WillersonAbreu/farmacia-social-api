@@ -74,8 +74,11 @@ public class MedicineDonation implements Serializable {
 	private Timestamp updatedAt;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", referencedColumnName = "id", nullable=false)
+	@JoinColumn(name="user_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private User user;
+	
+	@Column(name = "user_id", nullable = false)
+	private Long userId;
 
 	@Column(nullable = false)
 	private Timestamp manufacturyDate;
