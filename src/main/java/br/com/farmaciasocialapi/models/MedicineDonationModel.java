@@ -27,9 +27,9 @@ import lombok.Setter;
 @Setter
 public class MedicineDonationModel implements Serializable {
 	/**
-	 * 
+	 *
 	 */
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2282473662619447233L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

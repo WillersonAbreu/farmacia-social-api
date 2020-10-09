@@ -26,9 +26,9 @@ import lombok.Setter;
 public class UserModel implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7235180941196495384L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
-import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.service.MedicineDonationService;
 
 @RestController

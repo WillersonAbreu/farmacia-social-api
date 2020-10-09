@@ -3,7 +3,6 @@ package br.com.farmaciasocialapi.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,10 +21,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReservedDonationModel implements Serializable {
+
 	/**
-	 * 
+	 *
 	 */
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1242787280945689321L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

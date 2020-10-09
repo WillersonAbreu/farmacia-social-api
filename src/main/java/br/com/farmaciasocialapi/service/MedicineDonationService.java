@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
-import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
 
 @Service
