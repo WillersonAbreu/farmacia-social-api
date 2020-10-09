@@ -58,26 +58,16 @@ public class UserService implements UserDetailsService {
     public UserModel save(UserModel user) {
         this.isEmailUsed(user.getEmail());
         this.isCpfUsed(user.getCpf());
-        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        String encodedPassword = this.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
         return user;
     }
 
     public UserModel update(Long id, UserModel userEntity) {
-        Optional<UserModel> foundUser = this.findById(id);
+        this.findById(id);
         userEntity.setId(id);
-
-        System.out.println(userEntity.getPassword());
-
-        if (userEntity.getPassword().length() > 0) {
-            String encodedPassword = new BCryptPasswordEncoder().encode(userEntity.getPassword());
-            userEntity.setPassword(encodedPassword);
-        }
-
-        userEntity.setCreatedAt(foundUser.get().getCreatedAt());
         userEntity.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-
         UserModel updatedUser = this.save(userEntity);
         return updatedUser;
     }
@@ -86,6 +76,11 @@ public class UserService implements UserDetailsService {
         Optional<UserModel> user = this.findById(id);
         this.userRepository.deleteById(id);
         return user.isPresent();
+    }
+
+    public String encodePassword(String password) {
+        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+        return encodedPassword;
     }
 
     @Override
