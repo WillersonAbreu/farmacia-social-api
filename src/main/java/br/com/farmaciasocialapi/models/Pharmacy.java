@@ -12,8 +12,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "pharmacies")
+@Getter
+@Setter
 public class Pharmacy implements Serializable {
 	/**
 	 * 
@@ -26,7 +31,16 @@ public class Pharmacy implements Serializable {
 
 	@Column(nullable = false)
 	private String fantasyName;
-
+	
+	@Column(nullable = false)
+	private String address;
+	
+	@Column(nullable = false)
+	private String cep;
+	
+	@Column(nullable = false)
+	private String region;
+	
 	@Column(nullable = false)
 	private String cnpj;
 
