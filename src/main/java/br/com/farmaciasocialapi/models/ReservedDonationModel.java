@@ -3,6 +3,7 @@ package br.com.farmaciasocialapi.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,12 +32,18 @@ public class ReservedDonationModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "medicineDonationId", nullable = false)
+	private String medicineDonationId;
+
+	@Column(name = "benefitedUserId", nullable = false)
+	private String benefitedUserId;
+
 	@ManyToOne
-	@JoinColumn(name = "medicineDonationId")
+	@JoinColumn(name = "medicineDonationId", insertable = false, updatable = false)
 	private MedicineDonationModel medicineDonation;
 
 	@ManyToOne
-	@JoinColumn(name = "benefitedUserId")
+	@JoinColumn(name = "benefitedUserId", insertable = false, updatable = false)
 	private UserModel benefitedUser;
 
 	@CreationTimestamp
