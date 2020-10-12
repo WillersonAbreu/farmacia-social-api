@@ -3,7 +3,6 @@ package br.com.farmaciasocialapi.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,29 +13,35 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-@Table(name = "post_images")
-public class PostImage implements Serializable {
+@Table(name = "reserved_donations")
+@Getter
+@Setter
+public class ReservedDonationModel implements Serializable {
+
 	/**
-	 * 
+	 *
 	 */
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1242787280945689321L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "donationId")
-	private MedicineDonation donation;
+	@JoinColumn(name = "medicineDonationId")
+	private MedicineDonationModel medicineDonation;
 
-	@Column(nullable = false, length = 60)
-	private String imageName;
+	@ManyToOne
+	@JoinColumn(name = "benefitedUserId")
+	private UserModel benefitedUser;
 
 	@CreationTimestamp
 	private Timestamp createdAt;
 
 	@CreationTimestamp
 	private Timestamp updatedAt;
-
 }
