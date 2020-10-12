@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -75,7 +74,7 @@ public class UserModel implements Serializable {
 	@OneToMany(mappedBy = "user")
 	private List<MedicineDonationModel> donations;
 
-	@OneToMany(mappedBy = "benefitedUser")
+	@OneToMany(mappedBy = "userId")
 	@JsonIgnore
 	private List<ReservedDonationModel> reservedDonations;
 

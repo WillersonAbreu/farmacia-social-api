@@ -32,19 +32,19 @@ public class ReservedDonationModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "medicineDonationId", nullable = false)
-	private String medicineDonationId;
+	@Column(name = "medicine_donation_id", nullable = false)
+	private Long medicineDonationId;
 
-	@Column(name = "benefitedUserId", nullable = false)
-	private String benefitedUserId;
+	@Column(name = "benefited_user_id", nullable = false)
+	private Long userId;
 
 	@ManyToOne
-	@JoinColumn(name = "medicineDonationId", insertable = false, updatable = false)
+	@JoinColumn(name = "medicine_donation_id", referencedColumnName = "id", updatable = false, insertable = false)
 	private MedicineDonationModel medicineDonation;
 
 	@ManyToOne
-	@JoinColumn(name = "benefitedUserId", insertable = false, updatable = false)
-	private UserModel benefitedUser;
+	@JoinColumn(name = "benefited_user_id", referencedColumnName = "id", updatable = false, insertable = false)
+	private UserModel userid;
 
 	@CreationTimestamp
 	private Timestamp createdAt;
