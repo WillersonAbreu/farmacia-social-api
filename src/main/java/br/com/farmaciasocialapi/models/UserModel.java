@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,24 +38,32 @@ public class UserModel implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, length = 150)
+	@NotBlank(message = "É necessário inserir o nome!")
 	private String name;
 
 	@Column(nullable = false, length = 80)
+	@Email(message = "É necessário inserir um email válido!")
+	@NotBlank(message = "É necessário inserir o email!")
 	private String email;
 
 	@Column(nullable = false, length = 15)
+	@NotBlank(message = "É necessário inserir o número do celular!")
 	private String phone;
 
 	@Column(nullable = false)
+	@NotBlank(message = "É necessário inserir uma senha!")
 	private String password;
 
 	@Column(nullable = false, length = 14, unique = true)
+	@NotBlank(message = "É necessário inserir o número do CPF!")
 	private String cpf;
 
 	@Column(nullable = false, length = 9)
+	@NotBlank(message = "É necessário inserir o número do CEP!")
 	private String cep;
 
 	@Column(nullable = false, length = 100)
+	@NotBlank(message = "É necessário inserir o endereço!")
 	private String address;
 
 	@CreationTimestamp
@@ -62,7 +73,6 @@ public class UserModel implements Serializable {
 	private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
 
 	@OneToMany(mappedBy = "user")
-	// @JsonIgnoreProperties("user")
 	private List<MedicineDonationModel> donations;
 
 	@OneToMany(mappedBy = "benefitedUser")

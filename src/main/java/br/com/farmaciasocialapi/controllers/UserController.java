@@ -56,7 +56,7 @@ public class UserController {
 	 */
 	@Transactional
 	@PostMapping("/users")
-	public ResponseEntity<Response> create(@RequestBody UserModel user) {
+	public ResponseEntity<Response> create(@RequestBody @Valid UserModel user) {
 		userService.save(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Usuário criado com sucesso", 201, user));
 
