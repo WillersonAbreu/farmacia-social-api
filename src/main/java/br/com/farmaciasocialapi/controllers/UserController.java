@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.resources.Response;
 import br.com.farmaciasocialapi.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Api(tags = "Usuários", description = "Controller responsável pelos endpoints dos usuários")
 @RequestMapping(value = "/api")
 public class UserController {
 
@@ -35,6 +38,7 @@ public class UserController {
 	 * @return List<User>
 	 */
 	@GetMapping("/users")
+	@ApiOperation(value = "Listar clientes", notes = "Método responsavel por listar todos os clientes")
 	public List<UserModel> getAllUsers() {
 		return userService.findAll();
 	}
@@ -46,6 +50,7 @@ public class UserController {
 	 * @return {User} user
 	 */
 	@GetMapping("/users/{id}")
+	@ApiOperation(value = "Listar um cliente", notes = "Método responsavel por listar um cliente pelo ID")
 	public Optional<UserModel> findUser(@PathVariable(value = "id") Long id) {
 		return userService.findById(id);
 	}
@@ -56,6 +61,7 @@ public class UserController {
 	 */
 	@Transactional
 	@PostMapping("/users")
+	@ApiOperation(value = "Cadastrar Usuário", notes = "Método responsavel por cadastrar um novo usuário")
 	public ResponseEntity<Response> create(@RequestBody @Valid UserModel user) {
 		userService.save(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Usuário criado com sucesso", 201, user));
@@ -69,6 +75,7 @@ public class UserController {
 	 */
 	@Transactional
 	@PutMapping("/users/{id}")
+	@ApiOperation(value = "Alterar Usuário", notes = "Método responsavel por alterar um usuário específico")
 	public ResponseEntity<Response> update(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody UserModel userEntity) {
 		UserModel user = userService.update(id, userEntity);
@@ -81,6 +88,7 @@ public class UserController {
 	 * @return {Response} Boolean @
 	 */
 	@DeleteMapping("/users/{id}")
+	@ApiOperation(value = "Deletar Cliente", notes = "Método responsavel por apagar um cliente específico")
 	@Transactional
 	public ResponseEntity<Response> delete(@PathVariable(value = "id") Long id) {
 		this.userService.deleteById(id);

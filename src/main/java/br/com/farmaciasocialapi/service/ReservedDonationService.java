@@ -27,7 +27,7 @@ public class ReservedDonationService {
 
     public ReservedDonationModel getOne(Long id) {
         Optional<ReservedDonationModel> optional = repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não foi encontrado!");
         }
         ReservedDonationModel entity = optional.get();
