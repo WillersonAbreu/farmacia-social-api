@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Don't check the following routes
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/geo").permitAll()
 				// Check the following routes
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
