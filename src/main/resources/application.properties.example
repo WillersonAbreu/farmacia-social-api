@@ -2,6 +2,7 @@ spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
 #Project Environment Variables
 jwt.secret=
+geoLocation.key=
 
 #banco de dados local Farmacia Social API
 spring.datasource.url=jdbc:mysql://localhost:3306/NOME_DO_DB?useTimezone=true&serverTimezone=America/Sao_Paulo

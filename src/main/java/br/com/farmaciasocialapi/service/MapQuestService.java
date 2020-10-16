@@ -10,11 +10,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MapQuestService {
-    private final String apiKey = "ym51GArNIA9JWACyuiQ5yD83opLDQIbv";
+
+    @Value("${geoLocation.key}")
+    private String apiKey;
     private final String geoLocationUrl = "https://www.mapquestapi.com/geocoding/v1/reverse?key=API_KEY&location=LATITUDE,LONGITUDE&outFormat=json&thumbMaps=false";
 
     public String getGeoLocationData(String latitude, String longitude) {
