@@ -12,7 +12,7 @@ CREATE TABLE medicine_donations (
   stripe varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   title varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   updated_at datetime(6) DEFAULT NULL,
-  user_id bigint DEFAULT NULL,
+  user_id bigint NOT NULL,
   PRIMARY KEY (id),
   KEY FKofx5xpni3sby0rs5ra7itimyx (user_id),
   CONSTRAINT FKofx5xpni3sby0rs5ra7itimyx FOREIGN KEY (user_id) REFERENCES users (id)

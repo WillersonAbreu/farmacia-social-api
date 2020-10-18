@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 
-import br.com.farmaciasocialapi.models.Pharmacy;
+import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.repository.PharmacyRepository;
 
 @Service
@@ -20,32 +20,32 @@ public class PharmacyService {
 	
 	//---------listar todas as farmacias---//
 	
-	public List<Pharmacy> getAll() {
+	public List<PharmacyModel> getAll() {
 		return repository.findAll();
 	}
 	//-------------------------------------//
 	
 	//---------Cria uma nova Farmacia------//
 	
-	public Pharmacy store(Pharmacy entity) {
+	public PharmacyModel store(PharmacyModel entity) {
 		return repository.save(entity);
 	}
 	
 	//-------------------------------------//
 	
 	//---------BUSCAR UMA FARMACIA PELO ID---//
-	public Pharmacy getOne(Long id) {
-		Optional<Pharmacy> optional = repository.findById(id);
+	public PharmacyModel getOne(Long id) {
+		Optional<PharmacyModel> optional = repository.findById(id);
 		if (optional.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Farmacia não encontrada!");
 		}
-		Pharmacy entity = optional.get();
+		PharmacyModel entity = optional.get();
 		return entity;
 	}
 	//-------------------------------------//
 	
 	//-------ATUALIZA UMA FARMACIA JA EXISTENTE-----//
-	public Pharmacy update(Long id, Pharmacy entity) {
+	public PharmacyModel update(Long id, PharmacyModel entity) {
 		this.getOne(id);
 		entity.setId(id);
 		return this.store(entity);
@@ -54,7 +54,7 @@ public class PharmacyService {
 	
 	//-------Excluir uma farmacia-----//
 	public void destroy(Long id) {
-		Pharmacy entity = this.getOne(id);
+		PharmacyModel entity = this.getOne(id);
 		repository.delete(entity);
 	}
 	//-------------------------------------//

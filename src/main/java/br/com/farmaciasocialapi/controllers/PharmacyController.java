@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import br.com.farmaciasocialapi.models.Pharmacy;
+
+import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.service.PharmacyService;
 import javassist.NotFoundException;
 
@@ -29,8 +30,8 @@ public class PharmacyController {
 	private PharmacyService service;
 	
 	@GetMapping // Listar todas entidades
-	public ResponseEntity<List<Pharmacy>> index() {
-		List<Pharmacy> entities = service.getAll();
+	public ResponseEntity<List<PharmacyModel>> index() {
+		List<PharmacyModel> entities = service.getAll();
 		return ResponseEntity.ok(entities);
 	}
 	
@@ -38,8 +39,8 @@ public class PharmacyController {
 	
 	@PostMapping // Cadastrar uma entidade
 	@Transactional
-	public ResponseEntity<Pharmacy> store(@Valid @RequestBody Pharmacy entity) {
-		Pharmacy newEntity = service.store(entity);
+	public ResponseEntity<PharmacyModel> store(@Valid @RequestBody PharmacyModel entity) {
+		PharmacyModel newEntity = service.store(entity);
 		return ResponseEntity.status(201).body(newEntity);
 	}
 	
@@ -47,8 +48,8 @@ public class PharmacyController {
 	//------------------------------------------------------//
 
 	@GetMapping("/{id}") // Detalhar uma entidade
-	public ResponseEntity<Pharmacy> show(@PathVariable(value = "id") Long id) throws NotFoundException {
-		Pharmacy entity = service.getOne(id);
+	public ResponseEntity<PharmacyModel> show(@PathVariable(value = "id") Long id) throws NotFoundException {
+		PharmacyModel entity = service.getOne(id);
 		return ResponseEntity.ok(entity);
 	}
 	
@@ -56,8 +57,8 @@ public class PharmacyController {
 	
 	@PutMapping("/{id}") // Atualizar uma entidade
 	@Transactional
-	public ResponseEntity<Pharmacy> update(@Valid @PathVariable(value = "id") Long id, @RequestBody Pharmacy entity) {
-		Pharmacy updatedEntity = service.update(id, entity);
+	public ResponseEntity<PharmacyModel> update(@Valid @PathVariable(value = "id") Long id, @RequestBody PharmacyModel entity) {
+		PharmacyModel updatedEntity = service.update(id, entity);
 		return ResponseEntity.ok(updatedEntity);
 	}
 	

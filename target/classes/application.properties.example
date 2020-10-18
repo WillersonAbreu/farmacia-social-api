@@ -1,5 +1,9 @@
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
+#Project Environment Variables
+jwt.secret=
+geoLocation.key=
+
 #banco de dados local Farmacia Social API
 
 
