@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +29,8 @@ public class PharmacyService {
 	//---------Cria uma nova Farmacia------//
 	
 	public PharmacyModel store(PharmacyModel entity) {
+		String password = this.encodePassword(entity.getPassword());
+		entity.setPassword(password);
 		return repository.save(entity);
 	}
 	
@@ -59,6 +62,9 @@ public class PharmacyService {
 	}
 	//-------------------------------------//
 
-
+	 public String encodePassword(String password) {
+	        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+	        return encodedPassword;
+	    }
 
 }
