@@ -39,7 +39,7 @@ public class PharmacyService {
 	//---------BUSCAR UMA FARMACIA PELO ID---//
 	public PharmacyModel getOne(Long id) {
 		Optional<PharmacyModel> optional = repository.findById(id);
-		if (optional.isEmpty()) {
+		if (!optional.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Farmacia não encontrada!");
 		}
 		PharmacyModel entity = optional.get();

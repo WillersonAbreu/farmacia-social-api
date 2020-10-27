@@ -30,12 +30,14 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<JwtResponseDTO> createAuthenticationToken(@Valid @RequestBody UserDTO userDTO) throws Exception {
         this.authenticate(userDTO.getEmail(), userDTO.getPassword()); // validar email e senha
 
         final UserDetails userDetails = userService.loadUserByUsername(userDTO.getEmail()); // recuperar o usuário
         final String token = jwtTokenUtil.generateToken(userDetails); // gerar o token
-        return ResponseEntity.ok(new JwtResponseDTO(token)); // retorna para o usuário o token
+        JwtResponseDTO response = new JwtResponseDTO();
+        response.setToken(token);
+        return ResponseEntity.ok(response); // retorna para o usuário o token
     }
 
     private void authenticate(String email, String senha) throws Exception {

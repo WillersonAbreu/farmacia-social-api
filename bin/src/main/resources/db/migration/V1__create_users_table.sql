@@ -3,21 +3,21 @@ CREATE TABLE users
   id bigint NOT NULL
   AUTO_INCREMENT,
   address varchar
-  (100) COLLATE utf8mb4_general_ci NOT NULL,
+  (100)  NOT NULL,
   cep varchar
-  (9) COLLATE utf8mb4_general_ci NOT NULL,
+  (9)  NOT NULL,
   cpf varchar
-  (14) COLLATE utf8mb4_general_ci NOT NULL,
+  (14)  NOT NULL,
   created_at datetime
   (6) DEFAULT NULL,
   email varchar
-  (80) COLLATE utf8mb4_general_ci NOT NULL,
+  (80)  NOT NULL,
   name varchar
-  (150) COLLATE utf8mb4_general_ci NOT NULL,
+  (150)  NOT NULL,
   password varchar
-  (255) COLLATE utf8mb4_general_ci NOT NULL,
+  (255)  NOT NULL,
   phone varchar
-  (15) COLLATE utf8mb4_general_ci NOT NULL,
+  (15)  NOT NULL,
   updated_at datetime
   (6) DEFAULT NULL,
   PRIMARY KEY

@@ -1,7 +1,7 @@
 CREATE TABLE post_images (
   id bigint NOT NULL AUTO_INCREMENT,
   created_at datetime(6) DEFAULT NULL,
-  image_name varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
+  image_name varchar(60)  NOT NULL,
   updated_at datetime(6) DEFAULT NULL,
   donation_id bigint DEFAULT NULL,
   PRIMARY KEY (id),

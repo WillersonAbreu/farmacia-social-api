@@ -23,6 +23,11 @@ public class SwaggerConfig {
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	public static final String DEFAULT_INCLUDE_PATTERN = "/.*";
 	
+	//PRA LOGAR NO SWAGGER
+	//0 - Faça login com um usuario e senha válidos já cadastrados no banco
+	//1-Clique no botao a direita Authorize
+	//2-Digite "Bearer " e o Token que voce copiou, e clique para autorizar
+	
 	
     @Bean
     public Docket api() { 
