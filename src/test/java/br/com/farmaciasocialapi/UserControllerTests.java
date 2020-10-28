@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -32,6 +35,7 @@ import br.com.farmaciasocialapi.models.UserModel;
 @SpringBootTest(classes = FarmaciaSocialApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
 @TestInstance(Lifecycle.PER_CLASS)
+@TestMethodOrder(OrderAnnotation.class)
 public class UserControllerTests {
 
 	@Autowired
@@ -60,6 +64,7 @@ public class UserControllerTests {
 	}
 
 	@Test
+	@Order(1)
 	public void listaTodosUsuarios() {
 		ResponseEntity<List<UserModel>> response = restTemplate.exchange(getUrl(), HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<UserModel>>() {
@@ -71,6 +76,7 @@ public class UserControllerTests {
 
 	@SuppressWarnings("deprecation")
 	@Test
+	@Order(2)
 	public void buscaUsuarioPorId() {
 		UserModel usuario = restTemplate.getForObject(getUrl() + "/1", UserModel.class);
 		System.out.println(usuario.getName());
@@ -80,6 +86,7 @@ public class UserControllerTests {
 	}
 
 	@Test
+	@Order(3)
 	public void verificaCadastroUsuario() {
 		UserModel usuario = new UserModel();
 		usuario.setName("Top dos Tops");
@@ -91,28 +98,36 @@ public class UserControllerTests {
 		}
 	}
 
-	/*
-	 * @Test public void cadastraUsuario() { UserModel usuario = new UserModel();
-	 * usuario.setName("Top dos Tops"); usuario.setEmail("email@teste.com");
-	 * usuario.setPhone("11223569874"); usuario.setPassword("123456");
-	 * usuario.setCpf("00011122232"); usuario.setCep("04904100");
-	 * usuario.setAddress("oi"); //System.out.println("nome" + usuario.getName() +
-	 * " senha: " + usuario.getPassword()); ResponseEntity<UserModel> postResponse =
-	 * restTemplate.postForEntity(getUrl(), usuario, UserModel.class);
-	 * assertNotNull(postResponse); UserModel novoUsuario = postResponse.getBody();
-	 * assertNotNull(novoUsuario); assertNotNull(novoUsuario.getId());
-	 * assertEquals(usuario.getName(), novoUsuario.getName()); }
-	 */
+	@Test
+	@Order(4)
+	public void cadastraUsuario() {
+		UserModel usuario = new UserModel();
+		usuario.setName("David Kalil");
+		usuario.setEmail("david@davidkaliil.com");
+		usuario.setPhone("(11) 98277-0646");
+		usuario.setPassword("123456");
+		usuario.setCpf("111.222.333-19");
+		usuario.setCep("12711-230");
+		usuario.setAddress("oi"); 
+									
+		ResponseEntity<UserModel> postResponse = restTemplate.postForEntity(getUrl(), usuario, UserModel.class);
+		assertNotNull(postResponse);
+		assertEquals(HttpStatus.CREATED,postResponse.getStatusCode());
+	}
 
-	/*
-	 * @Test public void deletaUsuario() { UserModel usuario =
-	 * restTemplate.getForObject(getUrl() + "/1", UserModel.class);
-	 * assertNotNull(usuario); System.out.println("vou deletar o:"+
-	 * usuario.getName()); restTemplate.delete(getUrl() + "/1"); try { usuario =
-	 * restTemplate.getForObject(getUrl() + "/1", UserModel.class);
-	 * System.out.println("deletou o:"+ usuario.getName()); } catch (final
-	 * HttpClientErrorException e) { assertEquals(HttpStatus.NOT_FOUND,
-	 * e.getStatusCode()); } }
-	 */
+	@Test
+	@Order(5)
+	public void deletaUsuario() {
+		UserModel usuario = restTemplate.getForObject(getUrl() + "/2", UserModel.class);
+		assertNotNull(usuario);
+		System.out.println("vou deletar o:" + usuario.getName());
+		restTemplate.delete(getUrl() + "/2");
+		try {
+			usuario = restTemplate.getForObject(getUrl() + "/2", UserModel.class);
+			System.out.println("deletou o:" + usuario.getName());
+		} catch (final HttpClientErrorException e) {
+			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
+		}
+	}
 
 }
