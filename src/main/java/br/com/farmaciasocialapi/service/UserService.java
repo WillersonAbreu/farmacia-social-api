@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     public Optional<UserModel> isEmailUsed(String email) {
         Optional<UserModel> user = this.userRepository.findByEmail(email);
         if (user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Este email já está em uso!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este email já está em uso!");
         }
         return user;
     }
@@ -48,14 +48,14 @@ public class UserService implements UserDetailsService {
     public Optional<UserModel> isCpfUsed(String cpf) {
         Optional<UserModel> user = this.userRepository.findByCpf(cpf);
         if (user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Este CPF já está em uso!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este CPF já está em uso!");
         }
         return user;
     }
 
     public UserModel save(UserModel user) {
-        this.isEmailUsed(user.getEmail());
-        this.isCpfUsed(user.getCpf());
+        //this.isEmailUsed(user.getEmail());
+       // this.isCpfUsed(user.getCpf());
         String encodedPassword = this.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
         this.userRepository.save(user);

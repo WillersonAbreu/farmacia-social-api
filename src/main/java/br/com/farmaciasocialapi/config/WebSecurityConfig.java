@@ -51,11 +51,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 				// Don't check the following routes
-				.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/geo").permitAll()
+				.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users", "/api/login","/api/geo").permitAll()
 				// Check the following routes
-				.anyRequest().authenticated().and().sessionManagement()
+				//.anyRequest().authenticated()
+				.and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
