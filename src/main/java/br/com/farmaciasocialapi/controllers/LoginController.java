@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.farmaciasocialapi.config.JwtTokenUtil;
 import br.com.farmaciasocialapi.dto.JwtResponseDTO;
 import br.com.farmaciasocialapi.dto.UserDTO;
-import br.com.farmaciasocialapi.service.PharmacyService;
 import br.com.farmaciasocialapi.service.UserService;
 
 @RestController
@@ -30,9 +29,6 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PharmacyService pharmacyService;
-
     @PostMapping("/api/login")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody UserDTO userDTO) throws Exception {
         this.authenticate(userDTO.getEmail(), userDTO.getPassword()); // validar email e senha
@@ -41,21 +37,6 @@ public class LoginController {
         final String token = jwtTokenUtil.generateToken(userDetails); // gerar o token
         return ResponseEntity.ok(new JwtResponseDTO(token)); // retorna para o usuário o token
     }
-
-    // @PostMapping("/api/pharmacy/login")
-    // public ResponseEntity<?> createPharmacyAuthenticationToken(@Valid
-    // @RequestBody UserDTO userDTO) throws Exception {
-    // this.authenticate(userDTO.getEmail(), userDTO.getPassword()); // validar
-    // email e senha
-
-    // final UserDetails userDetails =
-    // pharmacyService.loadUserByUsername(userDTO.getEmail()); // recuperar o
-    // usuário
-    // final String token = jwtTokenUtil.generateToken(userDetails); // gerar o
-    // token
-    // return ResponseEntity.ok(new JwtResponseDTO(token)); // retorna para o
-    // usuário o token
-    // }
 
     private void authenticate(String email, String senha) throws Exception {
         try {

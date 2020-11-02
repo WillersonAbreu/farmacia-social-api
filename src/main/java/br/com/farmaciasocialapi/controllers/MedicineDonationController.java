@@ -58,7 +58,6 @@ public class MedicineDonationController {
 	@Transactional
 	@ApiOperation(value = "Cadastrar Anúncio", notes = "Método responsavel por cadastrar um novo anúncio")
 	public ResponseEntity<MedicineDonationModel> store(@Valid @RequestBody MedicineDonationModel medicineDonation) {
-		System.out.println(medicineDonation);
 		MedicineDonationModel entity = medicineDonationService.save(medicineDonation);
 		return ResponseEntity.ok(entity);
 	}

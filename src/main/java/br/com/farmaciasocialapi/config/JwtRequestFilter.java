@@ -16,12 +16,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.farmaciasocialapi.service.JwtUserDetailsService;
+import br.com.farmaciasocialapi.service.PharmacyDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private JwtUserDetailsService jwtUserDetailsService;
+
+	@Autowired
+	private PharmacyDetailsService pharmacyUserDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -50,16 +54,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		// Validate the token
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+			UserDetails userDetails;
+			try {
 
-			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				try {
+					userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+				} catch (Exception e) {
+					userDetails = this.pharmacyUserDetailsService.loadUserByUsername(username);
+				}
 
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+					usernamePasswordAuthenticationToken
+							.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				}
+			} catch (Exception e) {
+				System.out.println(e);
 			}
+
 		}
 		chain.doFilter(request, response);
 	}

@@ -12,9 +12,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "pharmacies")
@@ -32,16 +32,16 @@ public class PharmacyModel implements Serializable {
 
 	@Column(nullable = false)
 	private String fantasyName;
-	
+
 	@Column(nullable = false)
 	private String address;
-	
+
 	@Column(nullable = false)
 	private String cep;
-	
+
 	@Column(nullable = false)
 	private String region;
-	
+
 	@Column(nullable = false)
 	private String cnpj;
 
@@ -49,7 +49,7 @@ public class PharmacyModel implements Serializable {
 	private String pharmaceutical;
 
 	@Column(nullable = false)
-	private String email; 
+	private String email;
 
 	@Column(nullable = false)
 	private String password;
