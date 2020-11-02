@@ -15,7 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
+import br.com.farmaciasocialapi.repository.PharmacyRepository;
 import br.com.farmaciasocialapi.repository.UserRepository;
 
 @Service
@@ -23,6 +25,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
 
     public List<UserModel> findAll() {
         List<UserModel> users = this.userRepository.findAll();
@@ -86,8 +91,16 @@ public class UserService implements UserDetailsService {
 
         Optional<UserModel> usuario = this.userRepository.findByEmail(email);
 
-        if (usuario != null) {
+        if (usuario.isPresent()) {
             return new User(usuario.get().getEmail(), usuario.get().getPassword(), new ArrayList<>());
+        } else if (!usuario.isPresent()) {
+
+            Optional<PharmacyModel> pharmacy = this.pharmacyRepository.findByEmail(email);
+            if (pharmacy.isPresent()) {
+                return new User(pharmacy.get().getEmail(), pharmacy.get().getPassword(), new ArrayList<>());
+            } else {
+                throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
+            }
         } else {
             throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
         }

@@ -14,16 +14,13 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "pharmacies")
-//<<<<<<< HEAD:src/main/java/br/com/farmaciasocialapi/models/Pharmacy.java
 @Getter
 @Setter
-
-
 public class PharmacyModel implements Serializable {
-//>>>>>>> origin/develop:src/main/java/br/com/farmaciasocialapi/models/PharmacyModel.java
 	/**
 	 * 
 	 */
@@ -35,21 +32,24 @@ public class PharmacyModel implements Serializable {
 
 	@Column(nullable = false)
 	private String fantasyName;
-	
+
 	@Column(nullable = false)
 	private String address;
-	
+
 	@Column(nullable = false)
 	private String cep;
-	
+
 	@Column(nullable = false)
 	private String region;
-	
+
 	@Column(nullable = false)
 	private String cnpj;
 
 	@Column(nullable = false)
 	private String pharmaceutical;
+
+	@Column(nullable = false)
+	private String email;
 
 	@Column(nullable = false)
 	private String password;
