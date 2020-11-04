@@ -1,12 +1,19 @@
 package br.com.farmaciasocialapi.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
@@ -27,7 +34,45 @@ public class MedicineDonationService {
 
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
+		
+		String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
+		String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
+		medicineDonation.setPictureFile(urlDaImagemFrente);
+		medicineDonation.setPictureFileBack(urlDaImagemTras);
+		
 		return medicineDonationRepository.save(medicineDonation);
+	}
+	
+	//servico pra armazenar imagem
+	
+	private String saveBase64(String base64Str) {
+		String path = Paths.get("src/main/resources/images").toString();
+		String fileName = UUID.randomUUID().toString().replaceAll("-", "");
+		if (base64Str == null) {
+			return null;
+			
+			
+		} else if (base64Str.indexOf("data:image/png;") != -1) {
+			base64Str = base64Str.replace("data:image/png;base64,", "");
+			fileName += ".png";
+		} else if (base64Str.indexOf("data:image/jpeg;") != -1) {
+			base64Str = base64Str.replace("data:image/jpeg;base64,", "");
+			fileName += ".jpeg";
+		} else if (base64Str.indexOf("data:image/jpg;") != -1) {
+			base64Str = base64Str.replace("data:image/jpg;base64,", "");
+			fileName += ".jpg";
+		}
+		File file = new File(path, fileName);
+		byte[] fileBytes = Base64.getDecoder().decode(base64Str);
+		try {
+			FileUtils.writeByteArrayToFile(file, fileBytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// http://localhost:8080/images/12312.png
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/")
+				.path(fileName).toUriString();
+		return fileDownloadUri;
 	}
 
 	// procurar um anuncio pelo id do anuncio
