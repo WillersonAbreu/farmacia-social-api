@@ -18,7 +18,7 @@ public class GoogleMapsService {
 
     @Value("${geoLocation.key}")
     private String apiKey;
-    private final String geoLocationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=ADDRESS&key=API_KEY";//"https://www.mapquestapi.com/geocoding/v1/reverse?key=API_KEY&location=LATITUDE,LONGITUDE&outFormat=json&thumbMaps=false";
+    private final String geoLocationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=ADDRESS&key=API_KEY";
 
     public String getGeoLocationData(String address) {        
         String url = geoLocationUrl.replace("API_KEY", apiKey)
