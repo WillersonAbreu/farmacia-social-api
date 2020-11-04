@@ -51,6 +51,11 @@ public class PharmacyService implements UserDetailsService {
 	}
 	// -------------------------------------//
 
+	public Optional<PharmacyModel> findByEmail(String email) {
+		Optional<PharmacyModel> pharmacy = this.repository.findByEmail(email);
+		return pharmacy;
+	}
+
 	// -------ATUALIZA UMA FARMACIA JA EXISTENTE-----//
 	public PharmacyModel update(Long id, PharmacyModel entity) {
 		this.getOne(id);
@@ -73,14 +78,14 @@ public class PharmacyService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-        Optional<PharmacyModel> pharmacy = this.repository.findByEmail(email);
 
-        if (pharmacy != null) {
-            return new User(pharmacy.get().getEmail(), pharmacy.get().getPassword(), new ArrayList<>());
-        } else {
-            throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
-        }
+		Optional<PharmacyModel> pharmacy = this.repository.findByEmail(email);
+
+		if (pharmacy != null) {
+			return new User(pharmacy.get().getEmail(), pharmacy.get().getPassword(), new ArrayList<>());
+		} else {
+			throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
+		}
 	}
 
 }

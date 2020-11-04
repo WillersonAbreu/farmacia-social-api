@@ -1,5 +1,7 @@
 package br.com.farmaciasocialapi.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.farmaciasocialapi.config.JwtTokenUtil;
 import br.com.farmaciasocialapi.dto.JwtResponseDTO;
 import br.com.farmaciasocialapi.dto.UserDTO;
+import br.com.farmaciasocialapi.models.PharmacyModel;
+import br.com.farmaciasocialapi.models.UserModel;
+import br.com.farmaciasocialapi.repository.PharmacyRepository;
+import br.com.farmaciasocialapi.repository.UserRepository;
+import br.com.farmaciasocialapi.service.PharmacyService;
 import br.com.farmaciasocialapi.service.UserService;
 
 @RestController
@@ -28,13 +35,20 @@ public class LoginController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @PostMapping("/api/login")
-    public ResponseEntity<JwtResponseDTO> createAuthenticationToken(@Valid @RequestBody UserDTO userDTO) throws Exception {
-        this.authenticate(userDTO.getEmail(), userDTO.getPassword()); // validar email e senha
+    public ResponseEntity<JwtResponseDTO> createAuthenticationToken(@Valid @RequestBody UserDTO userDTO)
+            throws Exception {
 
+        Optional<UserModel> user = userService.findByEmail(userDTO.getEmail());
+        Optional<PharmacyModel> pharmacy = pharmacyService.findByEmail(userDTO.getEmail());
+
+        this.authenticate(userDTO.getEmail(), userDTO.getPassword()); // validar email e senha
         final UserDetails userDetails = userService.loadUserByUsername(userDTO.getEmail()); // recuperar o usuário
-        final String token = jwtTokenUtil.generateToken(userDetails); // gerar o token
+
+        final String token = jwtTokenUtil.generateToken(userDetails, user, pharmacy); // gerar o token
         JwtResponseDTO response = new JwtResponseDTO();
         response.setToken(token);
         return ResponseEntity.ok(response); // retorna para o usuário o token

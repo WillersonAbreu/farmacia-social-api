@@ -42,6 +42,11 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public Optional<UserModel> findByEmail(String email) {
+        Optional<UserModel> user = this.userRepository.findByEmail(email);
+        return user;
+    }
+
     public Optional<UserModel> isEmailUsed(String email) {
         Optional<UserModel> user = this.userRepository.findByEmail(email);
         if (user.isPresent()) {
@@ -59,8 +64,8 @@ public class UserService implements UserDetailsService {
     }
 
     public UserModel save(UserModel user) {
-        //this.isEmailUsed(user.getEmail());
-       // this.isCpfUsed(user.getCpf());
+        // this.isEmailUsed(user.getEmail());
+        // this.isCpfUsed(user.getCpf());
         String encodedPassword = this.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
