@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				// Don't check the following routes
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST,"/api/pharmacy","/api/login","/api/geo").permitAll()
+				.antMatchers(HttpMethod.POST,"/api/users","/api/pharmacies","/api/login","/api/geo").permitAll()
 				// Check the following routes
 				.anyRequest().authenticated()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

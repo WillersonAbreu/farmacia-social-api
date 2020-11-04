@@ -56,6 +56,12 @@ public class PharmacyModel implements Serializable {
 	@Column(nullable = false)
 	private String password;
 
+	@Column(nullable = false)
+	private String latitude;
+
+	@Column(nullable = false)
+	private String longitude;
+
 	@CreationTimestamp
 	private Timestamp createdAt;
 

@@ -22,8 +22,6 @@ import br.com.farmaciasocialapi.dto.JwtResponseDTO;
 import br.com.farmaciasocialapi.dto.UserDTO;
 import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
-import br.com.farmaciasocialapi.repository.PharmacyRepository;
-import br.com.farmaciasocialapi.repository.UserRepository;
 import br.com.farmaciasocialapi.service.PharmacyService;
 import br.com.farmaciasocialapi.service.UserService;
 

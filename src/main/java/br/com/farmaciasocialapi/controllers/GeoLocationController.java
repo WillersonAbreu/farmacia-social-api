@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.farmaciasocialapi.dto.GeoDataDTO;
-import br.com.farmaciasocialapi.service.MapQuestService;
+import br.com.farmaciasocialapi.service.GoogleMapsService;
 
 @RestController
 @CrossOrigin
@@ -17,11 +17,11 @@ import br.com.farmaciasocialapi.service.MapQuestService;
 public class GeoLocationController {
     
     @Autowired
-    private MapQuestService mapQuestService = new MapQuestService();
+    private GoogleMapsService googleMapsService = new GoogleMapsService();
 
     @PostMapping("")
     public ResponseEntity<?> getReverseGeoLocationData(@RequestBody GeoDataDTO geoDTO ){
-        String response = mapQuestService.getGeoLocationData(geoDTO.getLatitude(), geoDTO.getLongitude());        
+        String response = googleMapsService.getGeoLocationData(geoDTO.getAddress());        
         return ResponseEntity.ok(response);
     }
 }

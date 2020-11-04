@@ -14,17 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MapQuestService {
+public class GoogleMapsService {
 
     @Value("${geoLocation.key}")
     private String apiKey;
-    private final String geoLocationUrl = "https://www.mapquestapi.com/geocoding/v1/reverse?key=API_KEY&location=LATITUDE,LONGITUDE&outFormat=json&thumbMaps=false";
+    private final String geoLocationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=ADDRESS&key=API_KEY";//"https://www.mapquestapi.com/geocoding/v1/reverse?key=API_KEY&location=LATITUDE,LONGITUDE&outFormat=json&thumbMaps=false";
 
-    public String getGeoLocationData(String latitude, String longitude) {
-        
+    public String getGeoLocationData(String address) {        
         String url = geoLocationUrl.replace("API_KEY", apiKey)
-            .replace("LATITUDE", latitude)
-            .replace("LONGITUDE", longitude);
+            .replace("ADDRESS", address.replaceAll(" ", "+"));
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
