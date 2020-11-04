@@ -14,7 +14,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "pharmacies")
