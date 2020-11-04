@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Getter;
@@ -59,4 +62,13 @@ public class PharmacyModel implements Serializable {
 	@CreationTimestamp
 	private Timestamp updatedAt;
 
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
