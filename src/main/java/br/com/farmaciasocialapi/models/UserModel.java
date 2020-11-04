@@ -13,9 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -51,7 +51,7 @@ public class UserModel implements Serializable {
 	private String phone;
 
 	@Column(nullable = false)
-	//@NotNull(message = "É necessário inserir uma senha!")
+	// @NotNull(message = "É necessário inserir uma senha!")
 	private String password;
 
 	@Column(nullable = false, length = 14, unique = true)
@@ -93,5 +93,15 @@ public class UserModel implements Serializable {
 
 	private void setDonations(List<MedicineDonationModel> donations) {
 		this.donations = donations;
+	}
+
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

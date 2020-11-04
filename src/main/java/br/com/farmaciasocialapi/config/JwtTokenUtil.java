@@ -3,12 +3,15 @@ package br.com.farmaciasocialapi.config;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import br.com.farmaciasocialapi.models.PharmacyModel;
+import br.com.farmaciasocialapi.models.UserModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -49,14 +52,29 @@ public class JwtTokenUtil {
 	}
 
 	// Generate token to User
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(UserDetails userDetails, Optional<UserModel> user, Optional<PharmacyModel> pharmacy) {
 		Map<String, Object> claims = new HashMap<>();
+
+		if (!user.isPresent() && pharmacy.isPresent()) {
+			claims.put("name", pharmacy.get().getFantasyName());
+			claims.put("cep", pharmacy.get().getCep());
+			claims.put("address", pharmacy.get().getAddress());
+		} else if (user.isPresent() && !pharmacy.isPresent()) {
+			claims.put("name", user.get().getName());
+			claims.put("cep", user.get().getCep());
+			claims.put("address", user.get().getAddress());
+		}
+
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
 	// Create the token and define the expiration time
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().setClaims(claims).setSubject(subject)
+				// .claim("name", this.name)
+				// .claim("cep", this.cep)
+				// .claim("address", this.address)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}

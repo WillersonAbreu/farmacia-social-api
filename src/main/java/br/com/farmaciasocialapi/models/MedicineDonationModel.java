@@ -79,6 +79,13 @@ public class MedicineDonationModel implements Serializable {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
+	@ManyToOne
+	@JoinColumn(name = "pharmacy_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private PharmacyModel pharmacy;
+
+	@Column(name = "pharmacy_id", nullable = false)
+	private Long pharmacyId;
+
 	@Column(nullable = false)
 	private Timestamp manufacturyDate;
 
