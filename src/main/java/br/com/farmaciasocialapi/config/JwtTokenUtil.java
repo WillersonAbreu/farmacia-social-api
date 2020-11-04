@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 
 import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
-import br.com.farmaciasocialapi.repository.PharmacyRepository;
-import br.com.farmaciasocialapi.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
