@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Don't check the following routes
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST,"/api/users","/api/pharmacies","/api/login","/api/geo").permitAll()
+				.antMatchers(HttpMethod.GET, "/images/**").permitAll()
 				// Check the following routes
 				.anyRequest().authenticated()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -64,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/**.html", "/v2/api-docs", "/webjars/**",
-				"/configuration/**", "/swagger-resources/**","/images/**");
+				"/configuration/**", "/swagger-resources/**");
 	}
 
 }
