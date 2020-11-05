@@ -25,6 +25,9 @@ public class MedicineDonationService {
 
 	@Autowired
 	private MedicineDonationRepository medicineDonationRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	// Buscar todos as doações
 	public List<MedicineDonationModel> getAll() {
@@ -39,6 +42,7 @@ public class MedicineDonationService {
 		String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
 		medicineDonation.setPictureFile(urlDaImagemFrente);
 		medicineDonation.setPictureFileBack(urlDaImagemTras);
+		medicineDonation.setUserId(userService.getUser().getId());
 		
 		return medicineDonationRepository.save(medicineDonation);
 	}

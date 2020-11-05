@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -60,6 +61,7 @@ public class MedicineDonationModel implements Serializable {
 	private String pictureFileBack;
 
 	@Column(nullable = false)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp shelfLife;
 
 	@Column(nullable = false, length = 10)
@@ -95,6 +97,7 @@ public class MedicineDonationModel implements Serializable {
 
 
 	@Column(nullable = false)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp manufacturyDate;
 
 	@OneToMany(mappedBy = "donation")
