@@ -66,8 +66,8 @@ public class UserService implements UserDetailsService {
     }
 
     public UserModel save(UserModel user) {
-        // this.isEmailUsed(user.getEmail());
-        // this.isCpfUsed(user.getCpf());
+        this.isEmailUsed(user.getEmail());
+        this.isCpfUsed(user.getCpf());
         String encodedPassword = this.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
@@ -75,10 +75,20 @@ public class UserService implements UserDetailsService {
     }
 
     public UserModel update(Long id, UserModel userEntity) {
-        this.findById(id);
+        Optional<UserModel> currentUser = this.findById(id);
+
         userEntity.setId(id);
         userEntity.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-        UserModel updatedUser = this.save(userEntity);
+
+        if(userEntity.getEmail() != currentUser.get().getEmail()){
+            this.isEmailUsed(userEntity.getEmail());
+        }
+
+        if(userEntity.getCpf() != currentUser.get().getCpf()){
+            this.isCpfUsed(userEntity.getCpf());
+        }
+
+        UserModel updatedUser = this.userRepository.save(userEntity);
         return updatedUser;
     }
 
