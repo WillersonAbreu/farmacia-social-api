@@ -2,8 +2,11 @@ package br.com.farmaciasocialapi.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +16,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 
 import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.repository.PharmacyRepository;
 import br.com.farmaciasocialapi.repository.UserRepository;
+import br.com.farmaciasocialapi.util.Mail;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -30,6 +34,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private EmailService emailService;
 
     public List<UserModel> findAll() {
         List<UserModel> users = this.userRepository.findAll();
@@ -109,6 +119,13 @@ public class UserService implements UserDetailsService {
         Optional<UserModel> usuario = this.userRepository.findByEmail(email);
 
         if (usuario.isPresent()) {
+        	
+        	UserModel user = usuario.get();
+        	
+        	if(user.getTokenConfirmation() != null) {
+        		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email não foi autenticado");
+        	}
+        	
             return new User(usuario.get().getEmail(), usuario.get().getPassword(), new ArrayList<>());
         } else if (!usuario.isPresent()) {
 
@@ -127,6 +144,48 @@ public class UserService implements UserDetailsService {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Optional<UserModel> optional = userRepository.findByEmail(user.getUsername());
 		return optional.get();
+	}
+    
+    public UserModel registro(UserModel usuarioDto) {
+		Optional<UserModel> emailExistente = userRepository.findByEmail(usuarioDto.getEmail());
+		Optional<UserModel> cpfExistente = userRepository.findByCpf(usuarioDto.getEmail());
+		if(emailExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já existe");
+		}
+		if(cpfExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
+		}
+		
+		usuarioDto.setTokenConfirmation(UUID.randomUUID().toString());
+		UserModel usuario = this.save(usuarioDto);
+		
+		
+		Mail mail = new Mail();
+		mail.setTo(usuario.getEmail());
+		mail.setSubject("Confirmação de cadastro");
+		// mail.setTemplate("Welcome");
+		mail.setTemplate("confirm-register-email");
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("usuario", usuario);
+		model.put("token", "confirm-register?token="+ usuario.getTokenConfirmation());
+		
+		mail.setModel(model);
+		emailService.sendEmail(mail);
+		
+		return usuario;
+	}
+    
+	public UserModel confirmRegister(String token) {
+		Optional<UserModel> optional = userRepository.findByTokenConfirmation(token);
+
+		if (!optional.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrado nenhum usuário com esse token.");
+		}
+		UserModel usuario = optional.get();
+		usuario.setTokenConfirmation(null);
+		userRepository.save(usuario);
+		return usuario;
 	}
 
 }

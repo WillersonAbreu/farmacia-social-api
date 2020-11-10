@@ -1,0 +1,1 @@
+alter table users add token_confirmation varchar(191) NULL;

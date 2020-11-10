@@ -53,6 +53,8 @@ public class UserModel implements Serializable {
 	@Column(nullable = false)
 	// @NotNull(message = "É necessário inserir uma senha!")
 	private String password;
+	
+	private String tokenConfirmation;
 
 	@Column(nullable = false, length = 14, unique = true)
 	@NotBlank(message = "É necessário inserir o número do CPF!")

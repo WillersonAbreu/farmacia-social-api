@@ -2,9 +2,11 @@ package br.com.farmaciasocialapi.controllers;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +26,7 @@ import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
 import br.com.farmaciasocialapi.service.PharmacyService;
 import br.com.farmaciasocialapi.service.UserService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @CrossOrigin
@@ -58,6 +61,22 @@ public class LoginController {
 		return ResponseEntity.ok(userService.getUser());
 
 	}
+    
+    @PostMapping("api/registro")
+	@Transactional
+	public ResponseEntity<UserModel> registro(@Valid @RequestBody UserModel usuarioDto) {
+    	UserModel usuario = userService.registro(usuarioDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+	}
+    
+	@PostMapping("api/confirm-registro")
+	@Transactional
+	@ApiOperation(value = "Confirmação de registro", notes = "")
+	public ResponseEntity<UserModel> confirmInvite(@RequestBody JwtResponseDTO dto) {
+		UserModel user = userService.confirmRegister(dto.getToken());
+		return ResponseEntity.ok(user);
+	}
+
 
     private void authenticate(String email, String senha) throws Exception {
         try {

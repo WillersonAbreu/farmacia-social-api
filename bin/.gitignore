@@ -32,5 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-### Ignoring application.properties
+### Ignoring application.properties and resources
+/target/classes/application.properties
 /src/main/resources/application.properties
+/src/main/resources/images/**
+/src/
