@@ -32,7 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 
+<<<<<<< Updated upstream
 ### Ignoring application.properties and resources
 /target/classes/application.properties
 /src/main/resources/application.properties
 /src/main/resources/images/**
+=======
+### Ignoring application.properties
+/src/main/resources/application.properties
+/bin/
+>>>>>>> Stashed changes
