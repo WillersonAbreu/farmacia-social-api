@@ -84,7 +84,7 @@ public class LoginController {
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("BAD_CREDENTIALS", e);
+        	throw new Exception("Senha está incorreta", e);
         }
     }
 }
