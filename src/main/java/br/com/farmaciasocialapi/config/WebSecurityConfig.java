@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Don't check the following routes
 				.authorizeRequests()
 				.antMatchers("/images/**").permitAll()
-				.antMatchers(HttpMethod.POST,"/api/users","/api/pharmacies","/api/login","/api/geo","/api/registro","/api/confirm-registro","/api/esqueci-minha-senha","/api/reseta-senha").permitAll()
+				.antMatchers(HttpMethod.POST,"/api/users","/api/pharmacies","/api/login","/api/geo","/api/registro","/api/confirm-registro","/api/esqueci-minha-senha","/api/reseta-senha","/api/contatos").permitAll()
 				.antMatchers(HttpMethod.GET, "/images/**").permitAll()
 				// Check the following routes
 				.anyRequest().authenticated()
