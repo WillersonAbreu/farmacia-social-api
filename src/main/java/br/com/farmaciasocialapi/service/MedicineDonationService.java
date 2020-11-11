@@ -25,7 +25,7 @@ public class MedicineDonationService {
 
 	@Autowired
 	private MedicineDonationRepository medicineDonationRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -37,25 +37,28 @@ public class MedicineDonationService {
 
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
-		
-		String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
-		String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
-		medicineDonation.setPictureFile(urlDaImagemFrente);
-		medicineDonation.setPictureFileBack(urlDaImagemTras);
+
+		if (medicineDonation.getPictureFile() != null) {
+			String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
+			medicineDonation.setPictureFile(urlDaImagemFrente);
+		} else if (medicineDonation.getPictureFileBack() != null) {
+			String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
+			medicineDonation.setPictureFileBack(urlDaImagemTras);
+		}
+
 		medicineDonation.setUserId(userService.getUser().getId());
-		
+
 		return medicineDonationRepository.save(medicineDonation);
 	}
-	
-	//servico pra armazenar imagem
-	
+
+	// servico pra armazenar imagem
+
 	private String saveBase64(String base64Str) {
 		String path = Paths.get("src/main/resources/images").toString();
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "");
 		if (base64Str == null) {
 			return null;
-			
-			
+
 		} else if (base64Str.indexOf("data:image/png;") != -1) {
 			base64Str = base64Str.replace("data:image/png;base64,", "");
 			fileName += ".png";
@@ -74,8 +77,8 @@ public class MedicineDonationService {
 			e.printStackTrace();
 		}
 		// http://localhost:8080/images/12312.png
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/")
-				.path(fileName).toUriString();
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(fileName)
+				.toUriString();
 		return fileDownloadUri;
 	}
 
