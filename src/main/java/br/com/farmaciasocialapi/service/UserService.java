@@ -20,8 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.farmaciasocialapi.dto.PasswordForgotDTO;
+import br.com.farmaciasocialapi.dto.PasswordResetDTO;
+import br.com.farmaciasocialapi.models.PasswordResetToken;
 import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
+import br.com.farmaciasocialapi.repository.PasswordResetTokenRepository;
 import br.com.farmaciasocialapi.repository.PharmacyRepository;
 import br.com.farmaciasocialapi.repository.UserRepository;
 import br.com.farmaciasocialapi.util.Mail;
@@ -40,6 +44,9 @@ public class UserService implements UserDetailsService {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+	private PasswordResetTokenRepository tokenRepository;
 
     public List<UserModel> findAll() {
         List<UserModel> users = this.userRepository.findAll();
@@ -186,6 +193,46 @@ public class UserService implements UserDetailsService {
 		usuario.setTokenConfirmation(null);
 		userRepository.save(usuario);
 		return usuario;
+	}
+	
+	public void esqueceuSenha(PasswordForgotDTO dto) {
+	
+		
+		UserModel usuario = userRepository.findByEmail(dto.getEmail()).orElseThrow(()->{
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado!"); 
+		});
+		PasswordResetToken token = new PasswordResetToken();
+		token.setToken(UUID.randomUUID().toString());
+		token.setUsuario(usuario);
+		token.setDataExpiracao(1); //tempo em horas
+		tokenRepository.save(token);
+		
+		Mail mail = new Mail();
+		mail.setTo(usuario.getEmail());
+		mail.setSubject("Recuperação de senha");
+		mail.setTemplate("forgot-password-email");
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("usuario", usuario);
+		model.put("token", "reset-password?token=" + token.getToken());
+		mail.setModel(model);
+		emailService.sendEmail(mail);
+	
+	}
+	
+	public void resetaSenha(PasswordResetDTO dto){
+		PasswordResetToken token = tokenRepository.findByToken(dto.getToken());
+		if (token == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token não encontrado!");
+		}
+		if (token.expirou()) {
+			tokenRepository.delete(token);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token expirado!");
+		}
+		UserModel usuario = token.getUsuario();
+		String senhaAtualizada = passwordEncoder.encode(dto.getPassword());
+		userRepository.updateSenha(senhaAtualizada, usuario.getId());
+		tokenRepository.delete(token);
 	}
 
 }

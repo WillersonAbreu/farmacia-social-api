@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.farmaciasocialapi.config.JwtTokenUtil;
 import br.com.farmaciasocialapi.dto.JwtResponseDTO;
+import br.com.farmaciasocialapi.dto.PasswordForgotDTO;
+import br.com.farmaciasocialapi.dto.PasswordResetDTO;
 import br.com.farmaciasocialapi.dto.UserDTO;
 import br.com.farmaciasocialapi.models.PharmacyModel;
 import br.com.farmaciasocialapi.models.UserModel;
@@ -75,6 +77,22 @@ public class LoginController {
 	public ResponseEntity<UserModel> confirmInvite(@RequestBody JwtResponseDTO dto) {
 		UserModel user = userService.confirmRegister(dto.getToken());
 		return ResponseEntity.ok(user);
+	}
+	
+	@PostMapping(value = "api/esqueci-minha-senha")
+	@Transactional //verifica commit e roll back para desfazer se deu algum BO na requisicao
+	@ApiOperation("Esqueci a senha")
+	public ResponseEntity<?> esqueceuSenha(@Valid @RequestBody PasswordForgotDTO dto) {
+		userService.esqueceuSenha(dto);
+		return ResponseEntity.noContent().build(); //204
+	}
+
+	@PostMapping(value = "api/reseta-senha")
+	@Transactional
+	@ApiOperation("Alterar Senha")
+	public ResponseEntity<?> resetaSenha(@RequestBody @Valid PasswordResetDTO dto) {
+		userService.resetaSenha(dto);
+		return ResponseEntity.noContent().build();
 	}
 
 
