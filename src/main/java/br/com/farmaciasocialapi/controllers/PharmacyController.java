@@ -72,6 +72,6 @@ public class PharmacyController {
 	public ResponseEntity<?> destroy(@PathVariable(value = "id") Long id) throws NotFoundException {
 		service.destroy(id);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new Response("Farmácia registrada com sucesso", 201, ResponseEntity.noContent().build()));
+				.body(new Response("Farmácia deletada com sucesso", 203, ResponseEntity.noContent().build()));
 	}
 }
