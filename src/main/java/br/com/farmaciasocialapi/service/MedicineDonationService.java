@@ -37,14 +37,16 @@ public class MedicineDonationService {
 
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
-
-		if (medicineDonation.getPictureFile() != null) {
+		
+		if (medicineDonation.getPictureFile().indexOf("data:image") != -1) {
 			String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
 			medicineDonation.setPictureFile(urlDaImagemFrente);
-		} else if (medicineDonation.getPictureFileBack() != null) {
+		}
+		if (medicineDonation.getPictureFileBack().indexOf("data:image") != -1) {
 			String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
 			medicineDonation.setPictureFileBack(urlDaImagemTras);
 		}
+
 
 		medicineDonation.setUserId(userService.getUser().getId());
 
