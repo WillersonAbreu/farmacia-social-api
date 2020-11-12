@@ -11,18 +11,16 @@ public abstract class BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	public static String getName() {
 		return BaseEntity.class.getSimpleName();
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	/*
+	 * public Integer getId() { return id; }
+	 * 
+	 * public void setId(Integer id) { this.id = id; }
+	 */
 	
 }

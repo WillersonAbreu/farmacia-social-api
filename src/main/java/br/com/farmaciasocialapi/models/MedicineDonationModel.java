@@ -19,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.farmaciasocialapi.resources.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Table(name = "medicine_donations")
 @Getter
 @Setter
-public class MedicineDonationModel implements Serializable {
+public class MedicineDonationModel extends BaseEntity implements Serializable {
 	/**
 	 *
 	 */

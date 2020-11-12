@@ -10,6 +10,10 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,9 +21,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
+import br.com.farmaciasocialapi.resources.BaseService;
 
 @Service
-public class MedicineDonationService {
+public class MedicineDonationService extends BaseService<MedicineDonationModel, MedicineDonationRepository>{
 
 	// esse cara fica com a regra de negocio toda a logica, o controller so entrega
 
@@ -28,6 +33,15 @@ public class MedicineDonationService {
 
 	@Autowired
 	private UserService userService;
+	
+	//Buscar todas as doações com filtro
+	public Page<MedicineDonationModel> getAllPageable(MedicineDonationModel filter, Pageable pageable) {
+		ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues().withIgnoreCase()
+				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+		Example<MedicineDonationModel> example = Example.of(filter, matcher);
+
+		return medicineDonationRepository.findAll(example, pageable);
+	}
 
 	// Buscar todos as doações
 	public List<MedicineDonationModel> getAll() {
