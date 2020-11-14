@@ -33,13 +33,11 @@ public class PharmacyModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private RoleModel role;
-	
-	
+
 	@Column(name = "role_id", nullable = false)
 	private Long roleId = (long) 2;
 

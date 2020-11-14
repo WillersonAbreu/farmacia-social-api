@@ -59,10 +59,12 @@ public class JwtTokenUtil {
 			claims.put("name", pharmacy.get().getFantasyName());
 			claims.put("cep", pharmacy.get().getCep());
 			claims.put("address", pharmacy.get().getAddress());
+			claims.put("user_type", pharmacy.get().getRoleId());
 		} else if (user.isPresent() && !pharmacy.isPresent()) {
 			claims.put("name", user.get().getName());
 			claims.put("cep", user.get().getCep());
 			claims.put("address", user.get().getAddress());
+			claims.put("user_type", user.get().getRoleId());
 		}
 
 		return doGenerateToken(claims, userDetails.getUsername());
