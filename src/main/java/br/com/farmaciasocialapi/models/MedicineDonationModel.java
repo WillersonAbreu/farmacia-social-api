@@ -88,14 +88,13 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 
 	@Column(name = "pharmacy_id", nullable = false)
 	private Long pharmacyId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private PharmacyModel status;
+	private DonationStatusModel status;
 
 	@Column(name = "status_id", nullable = false)
 	private Long statusId;
-
 
 	@Column(nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -104,6 +103,9 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy = "donation")
 	@JsonIgnore
 	private List<PostImageModel> images;
+
+	@Column(name = "is_active", nullable = false)
+	private Boolean isActive = true;
 
 	@Override
 	public String toString() {

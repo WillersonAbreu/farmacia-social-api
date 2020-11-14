@@ -12,6 +12,7 @@ CREATE TABLE medicine_donations (
   stripe varchar(10)  NOT NULL,
   title varchar(100)  NOT NULL,
   updated_at datetime(6) DEFAULT NULL,
+  is_active tinyint(6) DEFAULT 1,
   user_id bigint NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id)
 ) ;
