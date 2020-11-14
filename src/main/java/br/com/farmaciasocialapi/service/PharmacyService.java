@@ -35,6 +35,7 @@ public class PharmacyService implements UserDetailsService {
 	public PharmacyModel store(PharmacyModel entity) {
 		String password = this.encodePassword(entity.getPassword());
 		entity.setPassword(password);
+		entity.setRoleId(2L);
 		return repository.save(entity);
 	}
 
