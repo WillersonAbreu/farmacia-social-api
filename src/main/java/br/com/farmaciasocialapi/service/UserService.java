@@ -87,6 +87,7 @@ public class UserService implements UserDetailsService {
         this.isCpfUsed(user.getCpf());
         String encodedPassword = this.encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setRoleId(1L);
         this.userRepository.save(user);
         return user;
     }

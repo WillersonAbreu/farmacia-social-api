@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -49,6 +51,17 @@ public class UserModel implements Serializable {
 	@Column(nullable = false, length = 15)
 	@NotBlank(message = "É necessário inserir o número do celular!")
 	private String phone;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private RoleModel role;
+	
+	
+	@Column(name = "role_id", nullable = false)
+	private Long roleId = (long) 1;
+	
+
 
 	@Column(nullable = false)
 	// @NotNull(message = "É necessário inserir uma senha!")

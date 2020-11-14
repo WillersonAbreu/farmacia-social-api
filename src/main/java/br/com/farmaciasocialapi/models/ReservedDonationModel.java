@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,11 +46,13 @@ public class ReservedDonationModel implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "benefited_user_id", referencedColumnName = "id", updatable = false, insertable = false)
-	private UserModel userid;
+	private UserModel user;
 
 	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp createdAt;
 
 	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
 }
