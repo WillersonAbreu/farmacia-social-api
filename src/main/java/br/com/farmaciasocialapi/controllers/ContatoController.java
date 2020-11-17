@@ -25,6 +25,7 @@ public class ContatoController {
 	@PostMapping("api/contatos")
 	public ResponseEntity<?> enviaContato(@RequestBody ContatoDTO contato){
 		
+		
 		Mail mail = new Mail();
 		mail.setTo(address);
 		
