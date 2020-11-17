@@ -56,11 +56,13 @@ public class JwtTokenUtil {
 		Map<String, Object> claims = new HashMap<>();
 
 		if (!user.isPresent() && pharmacy.isPresent()) {
+			claims.put("id", pharmacy.get().getId());
 			claims.put("name", pharmacy.get().getFantasyName());
 			claims.put("cep", pharmacy.get().getCep());
 			claims.put("address", pharmacy.get().getAddress());
 			claims.put("user_type", pharmacy.get().getRoleId());
 		} else if (user.isPresent() && !pharmacy.isPresent()) {
+			claims.put("id", user.get().getId());
 			claims.put("name", user.get().getName());
 			claims.put("cep", user.get().getCep());
 			claims.put("address", user.get().getAddress());

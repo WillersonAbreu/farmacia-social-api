@@ -5,8 +5,6 @@ public class Response {
 	private Integer code;
 	private Object data;
 	
-	
-	
 	public Response(String message, Integer code, Object data) {
 		super();
 		this.message = message;
