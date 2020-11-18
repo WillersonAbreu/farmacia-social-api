@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.models.ReservedDonationModel;
+import br.com.farmaciasocialapi.service.MedicineDonationService;
 import br.com.farmaciasocialapi.service.ReservedDonationService;
 import javassist.NotFoundException;
 
@@ -25,6 +27,9 @@ import javassist.NotFoundException;
 public class ReservedDonationController {
     @Autowired // serviço
     private ReservedDonationService service;
+    
+    @Autowired
+    private MedicineDonationService medicineDonationService;
 
     @GetMapping // Listar todas entidades
     public ResponseEntity<List<ReservedDonationModel>> index() {
@@ -36,6 +41,11 @@ public class ReservedDonationController {
     @Transactional
     public ResponseEntity<ReservedDonationModel> store(@Valid @RequestBody ReservedDonationModel entity) {
         ReservedDonationModel newEntity = service.store(entity);
+        
+        //inserir lógica para alterar o status da doação
+        MedicineDonationModel doacao = medicineDonationService.getOne(entity.getMedicineDonationId());
+        doacao.setStatusId(2l);
+        MedicineDonationModel doacaoAjustada = medicineDonationService.update(entity.getMedicineDonationId(), doacao);
         return ResponseEntity.status(201).body(newEntity);
     }
 
