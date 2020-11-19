@@ -36,8 +36,9 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 	
 	//Buscar todas as doações com filtro
 	public Page<MedicineDonationModel> getAllPageable(MedicineDonationModel filter, Pageable pageable) {
-		ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues().withIgnoreCase()
+		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()
 				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+		//filter.setStatusId(1l);
 		Example<MedicineDonationModel> example = Example.of(filter, matcher);
 
 		return medicineDonationRepository.findAll(example, pageable);
