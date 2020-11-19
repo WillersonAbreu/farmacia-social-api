@@ -4,6 +4,8 @@ CREATE TABLE pharmacies (
     created_at DATETIME(6) DEFAULT NULL,
     fantasy_name VARCHAR(255) NOT NULL,
     address VARCHAR(100) NOT NULL,
+    phone varchar
+    (15)  NOT NULL,
     cep VARCHAR(9) NOT NULL,
     region VARCHAR(60) NOT NULL,
     password VARCHAR(255) NOT NULL,

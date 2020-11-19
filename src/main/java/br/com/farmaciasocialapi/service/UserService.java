@@ -100,6 +100,9 @@ public class UserService implements UserDetailsService {
 
         if (userEntity.getPassword().length() == 0) {
             userEntity.setPassword(currentUser.get().getPassword());
+        } else {
+            String encodedPassword = this.encodePassword(userEntity.getPassword());
+            userEntity.setPassword(encodedPassword);
         }
 
         if (!userEntity.getEmail().equals(currentUser.get().getEmail())) {
@@ -109,9 +112,6 @@ public class UserService implements UserDetailsService {
         if (!userEntity.getCpf().equals(currentUser.get().getCpf())) {
             this.isCpfUsed(userEntity.getCpf());
         }
-
-        String encodedPassword = this.encodePassword(userEntity.getPassword());
-        userEntity.setPassword(encodedPassword);
 
         UserModel updatedUser = this.userRepository.save(userEntity);
         return updatedUser;

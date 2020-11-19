@@ -1,5 +1,6 @@
 package br.com.farmaciasocialapi.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,8 +62,47 @@ public class PharmacyService implements UserDetailsService {
 	public PharmacyModel update(Long id, PharmacyModel entity) {
 		this.getOne(id);
 		entity.setId(id);
-		return this.store(entity);
+
+		Optional<PharmacyModel> currentPharmacy = this.repository.findById(id);
+
+		entity.setId(id);
+		entity.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+		if (entity.getPassword().length() == 0) {
+			entity.setPassword(currentPharmacy.get().getPassword());
+		} else {
+			String encodedPassword = this.encodePassword(entity.getPassword());
+			entity.setPassword(encodedPassword);
+		}
+
+		if (!entity.getEmail().equals(currentPharmacy.get().getEmail())) {
+			this.isEmailUsed(entity.getEmail());
+		}
+
+		if (!entity.getCnpj().equals(currentPharmacy.get().getCnpj())) {
+			this.isCpfUsed(entity.getCnpj());
+		}
+
+		PharmacyModel updatedPharmacy = this.repository.save(entity);
+		return updatedPharmacy;
 	}
+
+	public Optional<PharmacyModel> isCpfUsed(String cnpj) {
+		Optional<PharmacyModel> pharmacy = this.repository.findByCnpj(cnpj);
+		if (pharmacy.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este CNPJ já está em uso!");
+		}
+		return pharmacy;
+	}
+
+	public Optional<PharmacyModel> isEmailUsed(String email) {
+		Optional<PharmacyModel> user = this.repository.findByEmail(email);
+		if (user.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este email já está em uso!");
+		}
+		return user;
+	}
+
 	// -------------------------------------//
 
 	// -------Excluir uma farmacia-----//
