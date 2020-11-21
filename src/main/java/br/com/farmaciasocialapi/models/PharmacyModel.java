@@ -62,6 +62,9 @@ public class PharmacyModel implements Serializable {
 	@Column(nullable = false)
 	private String email;
 
+	@Column(nullable = false, length = 15)
+	private String phone;
+
 	@Column(nullable = false)
 	private String password;
 

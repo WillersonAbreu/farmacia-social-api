@@ -16,9 +16,9 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 	Optional<UserModel> findByCpf(String cpf);
 
 	Optional<UserModel> findByEmail(String email);
-	
+
 	public Optional<UserModel> findByTokenConfirmation(String tokenConfirmation);
-	
+
 	@Modifying
 	@Query("update UserModel u set u.password = :password where u.id = :id")
 	void updateSenha(@Param("password") String password, @Param("id") Long id);
