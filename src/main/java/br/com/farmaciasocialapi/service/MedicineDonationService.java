@@ -69,6 +69,15 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		}
 
 		medicineDonation.setUserId(userService.getUser().getId());
+		
+		System.out.println("aqui o status é: " + medicineDonation.getStatusId());
+		
+		if (medicineDonation.getStatusId() <1L){
+			
+			medicineDonation.setStatusId(1l);		
+			System.out.println("aqui o status é: " + medicineDonation.getStatusId());
+		}
+		
 
 		return medicineDonationRepository.save(medicineDonation);
 	}
@@ -124,6 +133,8 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 	// modificar um anuncio
 	public MedicineDonationModel update(Long id, MedicineDonationModel medicineDonation) {
 		this.getOne(id);
+		MedicineDonationModel doacaoAtual = this.getOne(id);
+		medicineDonation.setStatusId(doacaoAtual.getStatusId());
 		medicineDonation.setId(id);
 		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 		return donationUpdated;
