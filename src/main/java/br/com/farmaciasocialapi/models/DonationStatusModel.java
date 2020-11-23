@@ -22,7 +22,7 @@ import lombok.Setter;
 @Table(name = "status_code")
 @Getter
 @Setter
-public class DonationStatusModel extends BaseEntity implements Serializable {
+public class DonationStatusModel implements Serializable {
     /**
      *
      */

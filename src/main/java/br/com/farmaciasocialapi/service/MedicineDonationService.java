@@ -3,6 +3,7 @@ package br.com.farmaciasocialapi.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -69,15 +70,10 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		}
 
 		medicineDonation.setUserId(userService.getUser().getId());
-		
-		System.out.println("aqui o status é: " + medicineDonation.getStatusId());
-		
-		if (medicineDonation.getStatusId() <1L){
-			
-			medicineDonation.setStatusId(1l);		
-			System.out.println("aqui o status é: " + medicineDonation.getStatusId());
+
+		if (medicineDonation.getStatusId() < 1L) {
+			medicineDonation.setStatusId(1l);
 		}
-		
 
 		return medicineDonationRepository.save(medicineDonation);
 	}
@@ -132,10 +128,10 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 
 	// modificar um anuncio
 	public MedicineDonationModel update(Long id, MedicineDonationModel medicineDonation) {
-		this.getOne(id);
-		MedicineDonationModel doacaoAtual = this.getOne(id);
-		medicineDonation.setStatusId(doacaoAtual.getStatusId());
+		MedicineDonationModel currentDonation = this.getOne(id);
 		medicineDonation.setId(id);
+		medicineDonation.setCreatedAt(currentDonation.getCreatedAt());
+		medicineDonation.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 		return donationUpdated;
 	}
