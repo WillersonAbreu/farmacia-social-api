@@ -31,22 +31,29 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "Doações", description = "Controller responsável pelos endpoints das doações")
 @RequestMapping(value = "/api/donations")
-public class MedicineDonationController extends BaseController<MedicineDonationModel, MedicineDonationRepository, MedicineDonationService> {
+public class MedicineDonationController
+		extends BaseController<MedicineDonationModel, MedicineDonationRepository, MedicineDonationService> {
 
 	@Autowired
 	MedicineDonationService medicineDonationService;
-	
-	
+
 	// Listar todas entidades com paginação
-	@GetMapping("/pageable") 
+	@GetMapping("/pageable")
 	@ApiOperation(value = "Listar doações paginadas", notes = "Método responsavel por listar todas as doações de forma paginada")
-	public ResponseEntity<Page<MedicineDonationModel>> index(MedicineDonationModel filter, @RequestParam("page") int pageIndex, 
-		    @RequestParam("size") int pageSize) {
-		Page<MedicineDonationModel> entities = medicineDonationService.getAllPageable(filter, PageRequest.of(pageIndex, pageSize));
+	public ResponseEntity<Page<MedicineDonationModel>> index(MedicineDonationModel filter,
+			@RequestParam("page") int pageIndex, @RequestParam("size") int pageSize) {
+		Page<MedicineDonationModel> entities = medicineDonationService.getAllPageable(filter,
+				PageRequest.of(pageIndex, pageSize));
 		return ResponseEntity.ok(entities);
 	}
-	 
-	
+
+	// Trazer todos os anuncios
+	@GetMapping("/user/{id}")
+	@ApiOperation(value = "Listar doações", notes = "Método responsavel por listar todas as doações")
+	public ResponseEntity<List<MedicineDonationModel>> getAllDonationsByUserId(@PathVariable(value = "id") Long id) {
+		List<MedicineDonationModel> donation = medicineDonationService.getAllByUserId(id);
+		return ResponseEntity.ok(donation);
+	}
 
 	// Trazer todos os anuncios
 	@GetMapping
