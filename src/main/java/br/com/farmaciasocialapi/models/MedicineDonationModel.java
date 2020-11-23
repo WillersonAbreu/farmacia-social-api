@@ -19,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.farmaciasocialapi.resources.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Table(name = "medicine_donations")
 @Getter
 @Setter
-public class MedicineDonationModel implements Serializable {
+public class MedicineDonationModel extends BaseEntity implements Serializable {
 	/**
 	 *
 	 */
@@ -87,14 +88,13 @@ public class MedicineDonationModel implements Serializable {
 
 	@Column(name = "pharmacy_id", nullable = false)
 	private Long pharmacyId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private PharmacyModel status;
+	private DonationStatusModel status;
 
 	@Column(name = "status_id", nullable = false)
 	private Long statusId;
-
 
 	@Column(nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -103,6 +103,9 @@ public class MedicineDonationModel implements Serializable {
 	@OneToMany(mappedBy = "donation")
 	@JsonIgnore
 	private List<PostImageModel> images;
+
+	@Column(name = "is_active", nullable = false)
+	private Boolean isActive = true;
 
 	@Override
 	public String toString() {

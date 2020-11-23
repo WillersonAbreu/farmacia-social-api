@@ -52,13 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 				// Don't check the following routes
-				.authorizeRequests()
-				.antMatchers("/images/**").permitAll()
-				.antMatchers(HttpMethod.POST,"/api/users","/api/pharmacies","/api/login","/api/geo","/api/registro","/api/contatos","/api/confirm-registro").permitAll()
-				.antMatchers(HttpMethod.GET, "/images/**").permitAll()
+				.authorizeRequests().antMatchers("/images/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/users", "/api/pharmacies", "/api/login", "/api/geo",
+						"/api/registro", "/api/confirm-registro", "/api/esqueci-minha-senha", "/api/reseta-senha",
+						"/api/contatos")
+				.permitAll().antMatchers(HttpMethod.GET, "/images/**", "/api/donations/pageable").permitAll()
 				// Check the following routes
-				.anyRequest().authenticated()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.anyRequest().authenticated().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 

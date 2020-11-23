@@ -3,6 +3,7 @@ package br.com.farmaciasocialapi.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,10 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,17 +22,28 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
+import br.com.farmaciasocialapi.resources.BaseService;
 
 @Service
-public class MedicineDonationService {
+public class MedicineDonationService extends BaseService<MedicineDonationModel, MedicineDonationRepository> {
 
 	// esse cara fica com a regra de negocio toda a logica, o controller so entrega
 
 	@Autowired
 	private MedicineDonationRepository medicineDonationRepository;
-	
+
 	@Autowired
 	private UserService userService;
+
+	// Buscar todas as doações com filtro
+	public Page<MedicineDonationModel> getAllPageable(MedicineDonationModel filter, Pageable pageable) {
+		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()
+				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+		// filter.setStatusId(1l);
+		Example<MedicineDonationModel> example = Example.of(filter, matcher);
+
+		return medicineDonationRepository.findAll(example, pageable);
+	}
 
 	// Buscar todos as doações
 	public List<MedicineDonationModel> getAll() {
@@ -35,27 +51,41 @@ public class MedicineDonationService {
 		return donations;
 	}
 
+	// Buscar todos as doações
+	public List<MedicineDonationModel> getAllByUserId(Long id) {
+		List<MedicineDonationModel> donations = medicineDonationRepository.getAllByUserId(id);
+		return donations;
+	}
+
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
-		
-		String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
-		String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
-		medicineDonation.setPictureFile(urlDaImagemFrente);
-		medicineDonation.setPictureFileBack(urlDaImagemTras);
+
+		if (medicineDonation.getPictureFile().indexOf("data:image") != -1) {
+			String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
+			medicineDonation.setPictureFile(urlDaImagemFrente);
+		}
+		if (medicineDonation.getPictureFileBack().indexOf("data:image") != -1) {
+			String urlDaImagemTras = this.saveBase64(medicineDonation.getPictureFileBack());
+			medicineDonation.setPictureFileBack(urlDaImagemTras);
+		}
+
 		medicineDonation.setUserId(userService.getUser().getId());
-		
+
+		if (medicineDonation.getStatusId() < 1L) {
+			medicineDonation.setStatusId(1l);
+		}
+
 		return medicineDonationRepository.save(medicineDonation);
 	}
-	
-	//servico pra armazenar imagem
-	
+
+	// servico pra armazenar imagem
+
 	private String saveBase64(String base64Str) {
 		String path = Paths.get("src/main/resources/images").toString();
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "");
 		if (base64Str == null) {
 			return null;
-			
-			
+
 		} else if (base64Str.indexOf("data:image/png;") != -1) {
 			base64Str = base64Str.replace("data:image/png;base64,", "");
 			fileName += ".png";
@@ -74,8 +104,8 @@ public class MedicineDonationService {
 			e.printStackTrace();
 		}
 		// http://localhost:8080/images/12312.png
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/")
-				.path(fileName).toUriString();
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(fileName)
+				.toUriString();
 		return fileDownloadUri;
 	}
 
@@ -98,8 +128,10 @@ public class MedicineDonationService {
 
 	// modificar um anuncio
 	public MedicineDonationModel update(Long id, MedicineDonationModel medicineDonation) {
-		this.getOne(id);
+		MedicineDonationModel currentDonation = this.getOne(id);
 		medicineDonation.setId(id);
+		medicineDonation.setCreatedAt(currentDonation.getCreatedAt());
+		medicineDonation.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 		return donationUpdated;
 	}

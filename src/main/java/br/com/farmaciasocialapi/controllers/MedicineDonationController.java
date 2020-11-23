@@ -6,6 +6,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
+import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
+import br.com.farmaciasocialapi.resources.BaseController;
+import br.com.farmaciasocialapi.resources.Response;
 import br.com.farmaciasocialapi.service.MedicineDonationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,10 +32,29 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(tags = "Doações", description = "Controller responsável pelos endpoints das doações")
 @RequestMapping(value = "/api/donations")
-public class MedicineDonationController {
+public class MedicineDonationController
+		extends BaseController<MedicineDonationModel, MedicineDonationRepository, MedicineDonationService> {
 
 	@Autowired
 	MedicineDonationService medicineDonationService;
+
+	// Listar todas entidades com paginação
+	@GetMapping("/pageable")
+	@ApiOperation(value = "Listar doações paginadas", notes = "Método responsavel por listar todas as doações de forma paginada")
+	public ResponseEntity<Page<MedicineDonationModel>> index(MedicineDonationModel filter,
+			@RequestParam("page") int pageIndex, @RequestParam("size") int pageSize) {
+		Page<MedicineDonationModel> entities = medicineDonationService.getAllPageable(filter,
+				PageRequest.of(pageIndex, pageSize));
+		return ResponseEntity.ok(entities);
+	}
+
+	// Trazer todos os anuncios
+	@GetMapping("/user/{id}")
+	@ApiOperation(value = "Listar doações", notes = "Método responsavel por listar todas as doações")
+	public ResponseEntity<List<MedicineDonationModel>> getAllDonationsByUserId(@PathVariable(value = "id") Long id) {
+		List<MedicineDonationModel> donation = medicineDonationService.getAllByUserId(id);
+		return ResponseEntity.ok(donation);
+	}
 
 	// Trazer todos os anuncios
 	@GetMapping
@@ -57,19 +84,19 @@ public class MedicineDonationController {
 	@PostMapping
 	@Transactional
 	@ApiOperation(value = "Cadastrar Anúncio", notes = "Método responsavel por cadastrar um novo anúncio")
-	public ResponseEntity<MedicineDonationModel> store(@Valid @RequestBody MedicineDonationModel medicineDonation) {
+	public ResponseEntity<Response> store(@Valid @RequestBody MedicineDonationModel medicineDonation) {
 		MedicineDonationModel entity = medicineDonationService.save(medicineDonation);
-		return ResponseEntity.ok(entity);
+		return ResponseEntity.ok(new Response("Anúncio cadastrado com sucesso!", 200, entity));
 	}
 
 	// Alterar um anuncio
 	@PutMapping("/{id}")
 	@Transactional
 	@ApiOperation(value = "Alterar Anúncio", notes = "Método responsavel por alterar um anúncio específico")
-	public ResponseEntity<MedicineDonationModel> update(@PathVariable(value = "id") Long id,
+	public ResponseEntity<Response> update(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody MedicineDonationModel medicineDonation) {
 		MedicineDonationModel entity = medicineDonationService.update(id, medicineDonation);
-		return ResponseEntity.ok(entity);
+		return ResponseEntity.ok(new Response("Anúncio alterado com sucesso!", 200, entity));
 	}
 
 	// Deletar um anúncio

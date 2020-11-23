@@ -45,4 +45,9 @@ public class ReservedDonationService {
         repository.delete(entity);
     }
 
+    public List<ReservedDonationModel> getAllByUserId(Long id) {
+        List<ReservedDonationModel> reservedDonations = this.repository.findAllById(id);
+        return reservedDonations;
+    }
+
 }
