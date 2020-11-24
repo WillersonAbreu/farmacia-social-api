@@ -38,15 +38,15 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private EmailService emailService;
-    
+
     @Autowired
-	private PasswordResetTokenRepository tokenRepository;
+    private PasswordResetTokenRepository tokenRepository;
 
     public List<UserModel> findAll() {
         List<UserModel> users = this.userRepository.findAll();
@@ -98,11 +98,18 @@ public class UserService implements UserDetailsService {
         userEntity.setId(id);
         userEntity.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        if(userEntity.getEmail() != currentUser.get().getEmail()){
+        if (userEntity.getPassword().length() == 0) {
+            userEntity.setPassword(currentUser.get().getPassword());
+        } else {
+            String encodedPassword = this.encodePassword(userEntity.getPassword());
+            userEntity.setPassword(encodedPassword);
+        }
+
+        if (!userEntity.getEmail().equals(currentUser.get().getEmail())) {
             this.isEmailUsed(userEntity.getEmail());
         }
 
-        if(userEntity.getCpf() != currentUser.get().getCpf()){
+        if (!userEntity.getCpf().equals(currentUser.get().getCpf())) {
             this.isCpfUsed(userEntity.getCpf());
         }
 
@@ -127,13 +134,13 @@ public class UserService implements UserDetailsService {
         Optional<UserModel> usuario = this.userRepository.findByEmail(email);
 
         if (usuario.isPresent()) {
-        	
-        	UserModel user = usuario.get();
-        	
-        	if(user.getTokenConfirmation() != null) {
-        		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email não foi autenticado");
-        	}
-        	
+
+            UserModel user = usuario.get();
+
+            if (user.getTokenConfirmation() != null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email não foi autenticado");
+            }
+
             return new User(usuario.get().getEmail(), usuario.get().getPassword(), new ArrayList<>());
         } else if (!usuario.isPresent()) {
 
@@ -147,93 +154,91 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
         }
     }
-    
-    public UserModel getUser() {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Optional<UserModel> optional = userRepository.findByEmail(user.getUsername());
-		return optional.get();
-	}
-    
-    public UserModel registro(UserModel usuarioDto) {
-		Optional<UserModel> emailExistente = userRepository.findByEmail(usuarioDto.getEmail());
-		Optional<UserModel> cpfExistente = userRepository.findByCpf(usuarioDto.getEmail());
-		if(emailExistente.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já existe");
-		}
-		if(cpfExistente.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
-		}
-		
-		usuarioDto.setTokenConfirmation(UUID.randomUUID().toString());
-		UserModel usuario = this.save(usuarioDto);
-		
-		
-		Mail mail = new Mail();
-		mail.setTo(usuario.getEmail());
-		mail.setSubject("Confirmação de cadastro");
-		// mail.setTemplate("Welcome");
-		mail.setTemplate("confirm-register-email");
-		
-		Map<String, Object> model = new HashMap<>();
-		model.put("usuario", usuario);
-		model.put("token", "confirm-register?token="+ usuario.getTokenConfirmation());
-		
-		mail.setModel(model);
-		emailService.sendEmail(mail);
-		
-		return usuario;
-	}
-    
-	public UserModel confirmRegister(String token) {
-		Optional<UserModel> optional = userRepository.findByTokenConfirmation(token);
 
-		if (!optional.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrado nenhum usuário com esse token.");
-		}
-		UserModel usuario = optional.get();
-		usuario.setTokenConfirmation(null);
-		userRepository.save(usuario);
-		return usuario;
-	}
-	
-	public void esqueceuSenha(PasswordForgotDTO dto) {
-	
-		
-		UserModel usuario = userRepository.findByEmail(dto.getEmail()).orElseThrow(()->{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado!"); 
-		});
-		PasswordResetToken token = new PasswordResetToken();
-		token.setToken(UUID.randomUUID().toString());
-		token.setUsuario(usuario);
-		token.setDataExpiracao(1); //tempo em horas
-		tokenRepository.save(token);
-		
-		Mail mail = new Mail();
-		mail.setTo(usuario.getEmail());
-		mail.setSubject("Recuperação de senha");
-		mail.setTemplate("forgot-password-email");
-		
-		Map<String, Object> model = new HashMap<>();
-		model.put("usuario", usuario);
-		model.put("token", "reset-password?token=" + token.getToken());
-		mail.setModel(model);
-		emailService.sendEmail(mail);
-	
-	}
-	
-	public void resetaSenha(PasswordResetDTO dto){
-		PasswordResetToken token = tokenRepository.findByToken(dto.getToken());
-		if (token == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token não encontrado!");
-		}
-		if (token.expirou()) {
-			tokenRepository.delete(token);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token expirado!");
-		}
-		UserModel usuario = token.getUsuario();
-		String senhaAtualizada = passwordEncoder.encode(dto.getPassword());
-		userRepository.updateSenha(senhaAtualizada, usuario.getId());
-		tokenRepository.delete(token);
-	}
+    public UserModel getUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<UserModel> optional = userRepository.findByEmail(user.getUsername());
+        return optional.get();
+    }
+
+    public UserModel registro(UserModel usuarioDto) {
+        Optional<UserModel> emailExistente = userRepository.findByEmail(usuarioDto.getEmail());
+        Optional<UserModel> cpfExistente = userRepository.findByCpf(usuarioDto.getEmail());
+        if (emailExistente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já existe");
+        }
+        if (cpfExistente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
+        }
+
+        usuarioDto.setTokenConfirmation(UUID.randomUUID().toString());
+        UserModel usuario = this.save(usuarioDto);
+
+        Mail mail = new Mail();
+        mail.setTo(usuario.getEmail());
+        mail.setSubject("Confirmação de cadastro");
+        // mail.setTemplate("Welcome");
+        mail.setTemplate("confirm-register-email");
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("usuario", usuario);
+        model.put("token", "confirm-register?token=" + usuario.getTokenConfirmation());
+
+        mail.setModel(model);
+        emailService.sendEmail(mail);
+
+        return usuario;
+    }
+
+    public UserModel confirmRegister(String token) {
+        Optional<UserModel> optional = userRepository.findByTokenConfirmation(token);
+
+        if (!optional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrado nenhum usuário com esse token.");
+        }
+        UserModel usuario = optional.get();
+        usuario.setTokenConfirmation(null);
+        userRepository.save(usuario);
+        return usuario;
+    }
+
+    public void esqueceuSenha(PasswordForgotDTO dto) {
+
+        UserModel usuario = userRepository.findByEmail(dto.getEmail()).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado!");
+        });
+        PasswordResetToken token = new PasswordResetToken();
+        token.setToken(UUID.randomUUID().toString());
+        token.setUsuario(usuario);
+        token.setDataExpiracao(1); // tempo em horas
+        tokenRepository.save(token);
+
+        Mail mail = new Mail();
+        mail.setTo(usuario.getEmail());
+        mail.setSubject("Recuperação de senha");
+        mail.setTemplate("forgot-password-email");
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("usuario", usuario);
+        model.put("token", "reset-password?token=" + token.getToken());
+        mail.setModel(model);
+        emailService.sendEmail(mail);
+
+    }
+
+    public void resetaSenha(PasswordResetDTO dto) {
+        PasswordResetToken token = tokenRepository.findByToken(dto.getToken());
+        if (token == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token não encontrado!");
+        }
+        if (token.expirou()) {
+            tokenRepository.delete(token);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token expirado!");
+        }
+        UserModel usuario = token.getUsuario();
+        String senhaAtualizada = passwordEncoder.encode(dto.getPassword());
+        userRepository.updateSenha(senhaAtualizada, usuario.getId());
+        tokenRepository.delete(token);
+    }
 
 }

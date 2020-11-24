@@ -3,6 +3,7 @@ package br.com.farmaciasocialapi.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ import br.com.farmaciasocialapi.repository.MedicineDonationRepository;
 import br.com.farmaciasocialapi.resources.BaseService;
 
 @Service
-public class MedicineDonationService extends BaseService<MedicineDonationModel, MedicineDonationRepository>{
+public class MedicineDonationService extends BaseService<MedicineDonationModel, MedicineDonationRepository> {
 
 	// esse cara fica com a regra de negocio toda a logica, o controller so entrega
 
@@ -33,11 +34,12 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 
 	@Autowired
 	private UserService userService;
-	
-	//Buscar todas as doações com filtro
+
+	// Buscar todas as doações com filtro
 	public Page<MedicineDonationModel> getAllPageable(MedicineDonationModel filter, Pageable pageable) {
-		ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues().withIgnoreCase()
+		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()
 				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+		// filter.setStatusId(1l);
 		Example<MedicineDonationModel> example = Example.of(filter, matcher);
 
 		return medicineDonationRepository.findAll(example, pageable);
@@ -49,9 +51,15 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		return donations;
 	}
 
+	// Buscar todos as doações
+	public List<MedicineDonationModel> getAllByUserId(Long id) {
+		List<MedicineDonationModel> donations = medicineDonationRepository.getAllByUserId(id);
+		return donations;
+	}
+
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
-		
+
 		if (medicineDonation.getPictureFile().indexOf("data:image") != -1) {
 			String urlDaImagemFrente = this.saveBase64(medicineDonation.getPictureFile());
 			medicineDonation.setPictureFile(urlDaImagemFrente);
@@ -61,8 +69,11 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 			medicineDonation.setPictureFileBack(urlDaImagemTras);
 		}
 
-
 		medicineDonation.setUserId(userService.getUser().getId());
+
+		if (medicineDonation.getStatusId() < 1L) {
+			medicineDonation.setStatusId(1l);
+		}
 
 		return medicineDonationRepository.save(medicineDonation);
 	}
@@ -117,8 +128,10 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 
 	// modificar um anuncio
 	public MedicineDonationModel update(Long id, MedicineDonationModel medicineDonation) {
-		this.getOne(id);
+		MedicineDonationModel currentDonation = this.getOne(id);
 		medicineDonation.setId(id);
+		medicineDonation.setCreatedAt(currentDonation.getCreatedAt());
+		medicineDonation.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 		return donationUpdated;
 	}
