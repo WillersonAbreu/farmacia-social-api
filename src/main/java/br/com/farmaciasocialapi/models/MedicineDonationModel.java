@@ -100,9 +100,9 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp manufacturyDate;
 
-	@OneToMany(mappedBy = "donation")
-	@JsonIgnore
-	private List<PostImageModel> images;
+	// @OneToMany(mappedBy = "donation")
+	// @JsonIgnore
+	// private List<PostImageModel> images;
 
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive = true;
@@ -113,7 +113,7 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 				+ createdAt + ", description=" + description + ", dosage=" + dosage + ", packing=" + packing
 				+ ", pictureFile=" + pictureFile + ", pictureFileBack=" + pictureFileBack + ", shelfLife=" + shelfLife
 				+ ", stripe=" + stripe + ", title=" + title + ", updatedAt=" + updatedAt + ", user=" + user
-				+ ", manufacturyDate=" + manufacturyDate + ", images=" + images + "]";
+				+ ", manufacturyDate=" + manufacturyDate + "]";
 	}
 
 }

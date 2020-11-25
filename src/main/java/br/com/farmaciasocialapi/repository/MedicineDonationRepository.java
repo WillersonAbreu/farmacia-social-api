@@ -18,4 +18,6 @@ public interface MedicineDonationRepository extends BaseRepository<MedicineDonat
 	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.userId = ?1 ORDER BY medicine.createdAt DESC")
 	List<MedicineDonationModel> getAllByUserId(Long id);
 
+	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.pharmacyId = ?1 AND medicine.statusId = 4 OR medicine.statusId = 5 OR medicine.statusId = 6 ORDER BY medicine.createdAt DESC")
+	List<MedicineDonationModel> findAllDoneDonationsByPharmacyId(Long id);
 }

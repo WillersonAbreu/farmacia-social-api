@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.farmaciasocialapi.dto.ContatoDTO;
 import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.models.ReservedDonationModel;
 import br.com.farmaciasocialapi.models.UserModel;

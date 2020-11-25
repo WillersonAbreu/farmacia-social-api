@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.farmaciasocialapi.models.MedicineDonationModel;
 import br.com.farmaciasocialapi.models.ReservedDonationModel;
 import br.com.farmaciasocialapi.repository.ReservedDonationRepository;
 
@@ -16,6 +17,9 @@ public class ReservedDonationService {
 
     @Autowired
     private ReservedDonationRepository repository;
+
+    @Autowired
+    private MedicineDonationService medicineDonationService;
 
     public List<ReservedDonationModel> getAll() {
         return repository.findAll();
@@ -41,7 +45,12 @@ public class ReservedDonationService {
     }
 
     public void destroy(Long id) {
+
         ReservedDonationModel entity = this.getOne(id);
+        MedicineDonationModel medicineDonation = this.medicineDonationService.getOne(entity.getMedicineDonationId());
+        medicineDonation.setStatusId(1L);
+        medicineDonation.setIsActive(true);
+        this.medicineDonationService.update(medicineDonation.getId(), medicineDonation);
         repository.delete(entity);
     }
 

@@ -75,9 +75,11 @@ public class PharmacyModel implements Serializable {
 	private String longitude;
 
 	@CreationTimestamp
+	@JsonIgnore
 	private Timestamp createdAt;
 
 	@CreationTimestamp
+	@JsonIgnore
 	private Timestamp updatedAt;
 
 	@JsonIgnore

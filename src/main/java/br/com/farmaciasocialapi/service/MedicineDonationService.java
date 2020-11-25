@@ -57,6 +57,12 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		return donations;
 	}
 
+	// Buscar todos as doações
+	public List<MedicineDonationModel> findAllDoneDonationsByPharmacyId(Long id) {
+		List<MedicineDonationModel> donations = medicineDonationRepository.findAllDoneDonationsByPharmacyId(id);
+		return donations;
+	}
+
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
 
@@ -69,7 +75,9 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 			medicineDonation.setPictureFileBack(urlDaImagemTras);
 		}
 
-		medicineDonation.setUserId(userService.getUser().getId());
+		if (medicineDonation.getUserId() == userService.getUser().getId()) {
+			medicineDonation.setUserId(userService.getUser().getId());
+		}
 
 		if (medicineDonation.getStatusId() < 1L) {
 			medicineDonation.setStatusId(1l);
