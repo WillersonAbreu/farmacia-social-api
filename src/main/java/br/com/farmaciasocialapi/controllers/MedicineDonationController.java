@@ -8,8 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +51,15 @@ public class MedicineDonationController
 	@ApiOperation(value = "Listar doações", notes = "Método responsavel por listar todas as doações")
 	public ResponseEntity<List<MedicineDonationModel>> getAllDonationsByUserId(@PathVariable(value = "id") Long id) {
 		List<MedicineDonationModel> donation = medicineDonationService.getAllByUserId(id);
+		return ResponseEntity.ok(donation);
+	}
+
+	// Trazer todos os anuncios
+	@GetMapping("/done/pharmacy/{id}")
+	@ApiOperation(value = "Listar doações concluídas", notes = "Método responsavel por listar todas as doações concluídas")
+	public ResponseEntity<List<MedicineDonationModel>> findAllDoneDonationsByPharmacyId(
+			@PathVariable(value = "id") Long id) {
+		List<MedicineDonationModel> donation = medicineDonationService.findAllDoneDonationsByPharmacyId(id);
 		return ResponseEntity.ok(donation);
 	}
 

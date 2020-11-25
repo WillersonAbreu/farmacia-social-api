@@ -21,6 +21,3 @@ CREATE TABLE users
   updated_at datetime
   (6) DEFAULT NULL
 );
-
-INSERT INTO users (address, cep, cpf, email, name, password, phone) VALUES
-('rua x', '04904000','00000000000', 'admin@teste.com', 'Admin Teste', '$2y$12$sSLCsH9Q.irGZhYl2zaQweO5wIhlExwiqZyerdmMSVzSRr.h0.zzS', '11900000000');
