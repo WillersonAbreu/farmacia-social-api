@@ -33,12 +33,12 @@ import javassist.NotFoundException;
 public class ReservedDonationController {
     @Autowired // serviço
     private ReservedDonationService service;
-    
+
     @Autowired
     private MedicineDonationService medicineDonationService;
-    
+
     @Autowired
-	private EmailService emailService;
+    private EmailService emailService;
 
     @GetMapping // Listar todas entidades
     public ResponseEntity<List<ReservedDonationModel>> index() {
@@ -50,42 +50,46 @@ public class ReservedDonationController {
     @Transactional
     public ResponseEntity<ReservedDonationModel> store(@Valid @RequestBody ReservedDonationModel entity) {
         ReservedDonationModel newEntity = service.store(entity);
-        
-        //inserir lógica para alterar o status da doação
+
+        // inserir lógica para alterar o status da doação
         MedicineDonationModel doacao = medicineDonationService.getOne(entity.getMedicineDonationId());
         doacao.setStatusId(2l);
         MedicineDonationModel doacaoAjustada = medicineDonationService.update(entity.getMedicineDonationId(), doacao);
         enviaEmailReserva(doacaoAjustada.getUser(), doacaoAjustada);
         return ResponseEntity.status(201).body(newEntity);
     }
-    
-	public ResponseEntity<?> enviaEmailReserva(@RequestBody UserModel usuario, MedicineDonationModel doacao ){
-		
-		
-		Mail mail = new Mail();
-		mail.setTo(usuario.getEmail());
-		
-		mail.setSubject("Medicação Reservada com Sucesso");
-		
-		mail.setTemplate("reserved-donation");
-		
-		Map<String, Object> model = new HashMap<>();
-		model.put("status", "Medicação Reservada");
-		model.put("nome", usuario.getName());
-		model.put("medicacao", doacao.getTitle());
-		model.put("descricao", doacao.getDescription());
-		model.put("dosagem", doacao.getDosage());
-		model.put("embalagem", doacao.getPacking());
-		model.put("tarja", doacao.getStripe());
-		model.put("datafab", doacao.getManufacturyDate());
-		model.put("dataval", doacao.getShelfLife());
-		
-		
-		mail.setModel(model);
-		emailService.sendEmail(mail);
-		
-		return ResponseEntity.noContent().build();
-	}
+
+    public ResponseEntity<?> enviaEmailReserva(@RequestBody UserModel usuario, MedicineDonationModel doacao) {
+
+        Mail mail = new Mail();
+        mail.setTo(usuario.getEmail());
+
+        mail.setSubject("Medicação Reservada com Sucesso");
+
+        mail.setTemplate("reserved-donation");
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("status", "Medicação Reservada");
+        model.put("nome", usuario.getName());
+        model.put("medicacao", doacao.getTitle());
+        model.put("descricao", doacao.getDescription());
+        model.put("dosagem", doacao.getDosage());
+        model.put("embalagem", doacao.getPacking());
+        model.put("tarja", doacao.getStripe());
+        model.put("datafab", doacao.getManufacturyDate());
+        model.put("dataval", doacao.getShelfLife());
+
+        mail.setModel(model);
+        emailService.sendEmail(mail);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{id}") // Listar todas entidades
+    public ResponseEntity<List<ReservedDonationModel>> getAllByUserId(@PathVariable(value = "id") Long id) {
+        List<ReservedDonationModel> entities = service.getAllByUserId(id);
+        return ResponseEntity.ok(entities);
+    }
 
     @GetMapping("/{id}") // Detalhar uma entidade
     public ResponseEntity<ReservedDonationModel> show(@PathVariable(value = "id") Long id) throws NotFoundException {

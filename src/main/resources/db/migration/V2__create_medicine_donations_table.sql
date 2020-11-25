@@ -14,5 +14,5 @@ CREATE TABLE medicine_donations (
   updated_at datetime(6) DEFAULT NULL,
   is_active tinyint(6) DEFAULT 1,
   user_id bigint NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id)
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ;
