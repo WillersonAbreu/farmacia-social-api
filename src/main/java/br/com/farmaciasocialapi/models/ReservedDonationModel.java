@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,7 +41,7 @@ public class ReservedDonationModel implements Serializable {
 	@Column(name = "benefited_user_id", nullable = false)
 	private Long userId;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "medicine_donation_id", referencedColumnName = "id", updatable = false, insertable = false)
 	private MedicineDonationModel medicineDonation;
 

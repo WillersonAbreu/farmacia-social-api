@@ -110,8 +110,6 @@ public class MedicineDonationController
 	public ResponseEntity<Response> update(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody MedicineDonationModel medicineDonation) {
 
-		System.out.println("TESTEEEEE   " + medicineDonation.toString());
-
 		MedicineDonationModel entity = medicineDonationService.update(id, medicineDonation);
 		return ResponseEntity.ok(new Response("Anúncio alterado com sucesso!", 200, entity));
 	}

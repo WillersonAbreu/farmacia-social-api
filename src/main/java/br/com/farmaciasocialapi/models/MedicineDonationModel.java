@@ -10,12 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.farmaciasocialapi.resources.BaseEntity;
 import lombok.Getter;
@@ -80,6 +82,10 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
+	@OneToOne(mappedBy = "medicineDonation")
+	@JsonIgnoreProperties("medicineDonation")
+	private ReservedDonationModel reservedDonation;
+
 	@ManyToOne
 	@JoinColumn(name = "pharmacy_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private PharmacyModel pharmacy;
@@ -97,10 +103,6 @@ public class MedicineDonationModel extends BaseEntity implements Serializable {
 	@Column(nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp manufacturyDate;
-
-	// @OneToMany(mappedBy = "donation")
-	// @JsonIgnore
-	// private List<PostImageModel> images;
 
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive = true;

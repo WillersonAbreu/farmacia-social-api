@@ -9,13 +9,12 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
 
 public class CustomResponseHandler {
-    
+
     // Create a custom response handler
     public ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
         @Override
-        public String handleResponse(
-                final HttpResponse response) throws ClientProtocolException, IOException {
+        public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
             int status = response.getStatusLine().getStatusCode();
             if (status >= 200 && status < 300) {
                 HttpEntity entity = response.getEntity();

@@ -16,4 +16,8 @@ public class DonationStatusService {
     public List<DonationStatusModel> getAll() {
         return repository.findAll();
     }
+    
+    public DonationStatusModel getOne(Long id) {
+    	return repository.getOne(id);
+    }
 }
