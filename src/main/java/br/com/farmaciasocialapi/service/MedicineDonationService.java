@@ -63,6 +63,11 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		return donations;
 	}
 
+	public List<MedicineDonationModel> findAllPendentDonationsByPharmacyId(Long id) {
+		List<MedicineDonationModel> donations = medicineDonationRepository.findAllPendentDonationsByPharmacyId(id);
+		return donations;
+	}
+
 	// Cadastrar novo anuncio
 	public MedicineDonationModel save(MedicineDonationModel medicineDonation) {
 

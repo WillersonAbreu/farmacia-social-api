@@ -9,8 +9,6 @@ import br.com.farmaciasocialapi.resources.BaseRepository;
 
 public interface MedicineDonationRepository extends BaseRepository<MedicineDonationModel> {
 
-	// @Query("SELECT d FROM MedicineDonationModel d WHERE d.isActive = 1 AND
-	// d.statusId = 1 ORDER BY d.createdAt DESC")
 	List<MedicineDonationModel> findAll();
 
 	List<MedicineDonationModel> findAllByUserId(Long UserId);
@@ -18,6 +16,9 @@ public interface MedicineDonationRepository extends BaseRepository<MedicineDonat
 	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.userId = ?1 ORDER BY medicine.createdAt DESC")
 	List<MedicineDonationModel> getAllByUserId(Long id);
 
-	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.pharmacyId = ?1 AND medicine.statusId = 4 OR medicine.statusId = 5 OR medicine.statusId = 6 ORDER BY medicine.createdAt DESC")
+	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.pharmacyId = ?1 AND medicine.statusId = 4 OR medicine.pharmacyId = ?1 AND medicine.statusId = 5 OR medicine.pharmacyId = ?1 AND medicine.statusId = 6 ORDER BY medicine.createdAt DESC")
 	List<MedicineDonationModel> findAllDoneDonationsByPharmacyId(Long id);
+
+	@Query("SELECT medicine FROM MedicineDonationModel medicine WHERE medicine.pharmacyId = ?1 AND medicine.statusId = 1 OR medicine.pharmacyId = ?1 AND medicine.statusId = 2 OR medicine.pharmacyId = ?1 AND medicine.statusId = 3 ORDER BY medicine.createdAt DESC")
+	List<MedicineDonationModel> findAllPendentDonationsByPharmacyId(Long id);
 }

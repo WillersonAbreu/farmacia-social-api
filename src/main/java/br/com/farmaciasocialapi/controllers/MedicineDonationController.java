@@ -54,12 +54,19 @@ public class MedicineDonationController
 		return ResponseEntity.ok(donation);
 	}
 
-	// Trazer todos os anuncios
 	@GetMapping("/done/pharmacy/{id}")
 	@ApiOperation(value = "Listar doações concluídas", notes = "Método responsavel por listar todas as doações concluídas")
 	public ResponseEntity<List<MedicineDonationModel>> findAllDoneDonationsByPharmacyId(
 			@PathVariable(value = "id") Long id) {
 		List<MedicineDonationModel> donation = medicineDonationService.findAllDoneDonationsByPharmacyId(id);
+		return ResponseEntity.ok(donation);
+	}
+
+	@GetMapping("/pendent/pharmacy/{id}")
+	@ApiOperation(value = "Listar doações concluídas", notes = "Método responsavel por listar todas as doações concluídas")
+	public ResponseEntity<List<MedicineDonationModel>> findAllPendentDonationsByPharmacyId(
+			@PathVariable(value = "id") Long id) {
+		List<MedicineDonationModel> donation = medicineDonationService.findAllPendentDonationsByPharmacyId(id);
 		return ResponseEntity.ok(donation);
 	}
 
@@ -102,6 +109,9 @@ public class MedicineDonationController
 	@ApiOperation(value = "Alterar Anúncio", notes = "Método responsavel por alterar um anúncio específico")
 	public ResponseEntity<Response> update(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody MedicineDonationModel medicineDonation) {
+
+		System.out.println("TESTEEEEE   " + medicineDonation.toString());
+
 		MedicineDonationModel entity = medicineDonationService.update(id, medicineDonation);
 		return ResponseEntity.ok(new Response("Anúncio alterado com sucesso!", 200, entity));
 	}

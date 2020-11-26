@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import br.com.farmaciasocialapi.resources.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
