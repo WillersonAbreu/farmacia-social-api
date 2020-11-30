@@ -108,11 +108,11 @@ public class UserControllerTests {
 		usuario.setPassword("123456");
 		usuario.setCpf("111.222.333-19");
 		usuario.setCep("12711-230");
-		usuario.setAddress("oi"); 
-									
+		usuario.setAddress("oi");
+
 		ResponseEntity<UserModel> postResponse = restTemplate.postForEntity(getUrl(), usuario, UserModel.class);
 		assertNotNull(postResponse);
-		assertEquals(HttpStatus.CREATED,postResponse.getStatusCode());
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
 	}
 
 	@Test
