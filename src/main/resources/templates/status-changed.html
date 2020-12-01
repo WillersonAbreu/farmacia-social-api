@@ -1,65 +1,78 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>CONTATO</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
-    <!-- use the font -->
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            font-size: 48px;
-        }
-    </style>
+<title>CONTATO</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href='http://fonts.googleapis.com/css?family=Roboto'
+	rel='stylesheet' type='text/css' />
+<!-- use the font -->
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 48px;
+}
+</style>
 </head>
 <body style="margin: 0; padding: 0;">
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
-    <tr>
-        <td align="center" bgcolor="#81B0B7" style="padding: 40px 0 30px 0;">
-            <h1>Farmácia Social </h1>
-        </td>
-    </tr>
-    <tr>
-       <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
-            <h3 th:text="${'Olá ' + nome}"></h3>
-            <p>
-           		Houve atualização do doação! Abaixo o detalhe da reserva:
-            </p>
-            <p>
-               <b>STATUS: </b><span th:text="${status}"></span>
-            </p>
-            <p>
-               <b>Medicação: </b><span th:text="${medicacao}"></span>
-            </p>
-              <p>
-               <b>Descrição: </b><span th:text="${descricao}"></span>
-            </p>
-              <p>
-               <b>Dosagem: </b><span th:text="${dosagem + ' mg'}"></span>
-            </p>
-              <p>
-               <b>Embalagem: </b><span th:text="${embalagem}"></span>
-            </p>
-             <p>
-               <b>Tarja: </b><span th:text="${tarja}"></span>
-            </p>
-              <p>
-               <b>Data Fabricação: </b><span th:text="${datafab}"></span>
-            </p>
-             <p>
-               <b>Data Validade: </b><span th:text="${dataval}"></span>
-            </p>
-            
-            <p>Equipe Farmácia Social.</p>
-        </td>
+	<table align="center" border="0" cellpadding="0" cellspacing="0"
+		width="600" style="border-collapse: collapse;">
+		<th:thead>
+			<tr>
+				<td bgcolor="#ffffff" style="padding: 20px 0; display: flex;">
+					<h1 style="color: #f4a261; margin: 0">
+						<img
+							src="https://raw.githubusercontent.com/davidkalil10/PI_FarmaciaSocial_DigitalHouse/master/assets/logo.png"
+							height="50px" style="vertical-align: middle;" /> Farmácia <b
+							style="color: #2a9d8f">Social</b>
+					</h1>
 
-    </tr>
-    <tr>
-        <td bgcolor="#81B0B7" style="padding: 30px 30px 30px 30px;">
-            <p >http://farmaciasocial.devprod.ga/</p>
-        </td>
-    </tr>
-</table>
+				</td>
+			</tr>
+		</th:thead>
+		<th:tbody>
+			<tr>
+				<td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
+					<h3 th:text="${'Olá ' + nome}"></h3>
+					<p>Houve atualização do doação! Abaixo o detalhe da reserva:</p>
+					<p>
+						<b>STATUS: </b><span th:text="${status}"></span>
+					</p>
+					<p>
+						<b>Medicação: </b><span th:text="${medicacao}"></span>
+					</p>
+					<p>
+						<b>Descrição: </b><span th:text="${descricao}"></span>
+					</p>
+					<p>
+						<b>Dosagem: </b><span th:text="${dosagem + ' mg'}"></span>
+					</p>
+					<p>
+						<b>Embalagem: </b><span th:text="${embalagem}"></span>
+					</p>
+					<p>
+						<b>Tarja: </b><span th:text="${tarja}"></span>
+					</p>
+					<p>
+						<b>Data Fabricação: </b><span th:text="${datafab}"></span>
+					</p>
+					<p>
+						<b>Data Validade: </b><span th:text="${dataval}"></span>
+					</p>
+
+					<p>Equipe Farmácia Social.</p>
+				</td>
+
+			</tr>
+		</th:tbody>
+		<th:tfoot>
+			<tr>
+				<td bgcolor="#81B0B7" style="padding: 30px 30px 30px 30px;">
+					<p>http://farmaciasocial.devprod.ga/</p>
+				</td>
+			</tr>
+		</th:tfoot>
+	</table>
 </body>
 </html>

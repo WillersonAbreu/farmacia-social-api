@@ -71,6 +71,7 @@ public class LoginController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
 	}
     
+    
 	@PostMapping("api/confirm-registro")
 	@Transactional
 	@ApiOperation(value = "Confirmação de registro", notes = "")
