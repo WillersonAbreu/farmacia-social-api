@@ -52,14 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 				// Don't check the following routes
-				.authorizeRequests().antMatchers("/images/**").permitAll()
+				.authorizeRequests().antMatchers("/images/**", "/resources/**", "/**.jpg", "/**.png", "/**.jpeg")
+				.permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users", "/api/pharmacies", "/api/login", "/api/geo",
 						"/api/registro", "/api/confirm-registro", "/api/esqueci-minha-senha", "/api/reseta-senha",
 						"/api/contatos")
-				.permitAll()
-				.antMatchers(HttpMethod.GET, "/resources/**", "/images/**", "**.jpg", "**.png", "**.jpeg",
-						"/api/donations/pageable")
-				.permitAll()
+				.permitAll().antMatchers(HttpMethod.GET, "/api/donations/pageable").permitAll()
 				// Check the following routes
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
