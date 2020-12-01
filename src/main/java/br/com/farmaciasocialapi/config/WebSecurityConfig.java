@@ -56,7 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/users", "/api/pharmacies", "/api/login", "/api/geo",
 						"/api/registro", "/api/confirm-registro", "/api/esqueci-minha-senha", "/api/reseta-senha",
 						"/api/contatos")
-				.permitAll().antMatchers(HttpMethod.GET, "/images/**", "/api/donations/pageable").permitAll()
+				.permitAll()
+				.antMatchers(HttpMethod.GET, "/resources/**", "/images/**", "**.jpg", "**.png", "**.jpeg",
+						"/api/donations/pageable")
+				.permitAll()
 				// Check the following routes
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
