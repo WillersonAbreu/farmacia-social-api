@@ -52,8 +52,8 @@ public class UserControllerTests {
 	@BeforeAll
 	public void setUp() {
 		LoginDTO loginDto = new LoginDTO();
-		loginDto.setEmail("admin@teste.com");
-		loginDto.setPassword("123123");
+		loginDto.setEmail("willersonabreu@hotmail.com");
+		loginDto.setPassword("123");
 		ResponseEntity<JwtResponseDTO> postResponse = restTemplateAux
 				.postForEntity("http://localhost:" + port + "/api/login", loginDto, JwtResponseDTO.class);
 		assertNotNull(postResponse);
