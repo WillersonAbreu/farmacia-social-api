@@ -41,6 +41,9 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 	private EmailService emailService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private DonationStatusService donationStatusService;
 
 	// Buscar todas as doações com filtro
@@ -157,7 +160,10 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 			enviaEmailMudancaStatus(currentDonation.getUser(), medicineDonation);
 			// chamar service de envio de email para o recebedor da doação
 
-			enviaEmailMudancaStatus(currentDonation.getReservedDonation().getUser(), medicineDonation);
+			if (currentDonation.getStatusId() != 1) {
+				enviaEmailMudancaStatus(currentDonation.getReservedDonation().getUser(), medicineDonation);
+			}
+
 		}
 		MedicineDonationModel donationUpdated = this.save(medicineDonation);
 
