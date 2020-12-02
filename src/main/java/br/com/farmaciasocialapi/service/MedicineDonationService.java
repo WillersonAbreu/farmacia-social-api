@@ -102,7 +102,6 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "");
 		if (base64Str == null) {
 			return null;
-
 		} else if (base64Str.indexOf("data:image/png;") != -1) {
 			base64Str = base64Str.replace("data:image/png;base64,", "");
 			fileName += ".png";
@@ -120,7 +119,7 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// http://localhost:8080/images/12312.png
+
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/").path(fileName)
 				.toUriString();
 		return fileDownloadUri;

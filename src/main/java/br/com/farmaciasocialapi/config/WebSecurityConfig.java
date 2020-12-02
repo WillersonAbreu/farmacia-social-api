@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				// Don't check the following routes
 				.authorizeRequests().antMatchers("/images/**", "/resources/**", "/**.jpg", "/**.png", "/**.jpeg")
-				.permitAll()
+				.anonymous()
 				.antMatchers(HttpMethod.POST, "/api/users", "/api/pharmacies", "/api/login", "/api/geo",
 						"/api/registro", "/api/confirm-registro", "/api/esqueci-minha-senha", "/api/reseta-senha",
 						"/api/contatos")
@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/**.html", "/v2/api-docs", "/webjars/**",
-				"/configuration/**", "/swagger-resources/**", "/images/**");
+				"/configuration/**", "/swagger-resources/**");
 	}
 
 }
