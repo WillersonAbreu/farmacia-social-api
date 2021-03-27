@@ -41,9 +41,6 @@ public class MedicineDonationService extends BaseService<MedicineDonationModel, 
 	private EmailService emailService;
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private DonationStatusService donationStatusService;
 
 	// Buscar todas as doações com filtro

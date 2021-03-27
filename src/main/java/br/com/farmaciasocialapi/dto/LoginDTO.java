@@ -16,4 +16,6 @@ public class LoginDTO {
 
     @NotNull(message = "A senha é obrigatória!")
     private String password;
+
+    private String token;
 }
